@@ -1,10 +1,10 @@
 # EconomyPlus
  _Spigot plugin for 1.8 to 1.19_
 
-## Discord
+### Discord
 Join the discord at: **https://discord.itswagpvp.dev**
 
-## License
+### License
 
 ![License](https://img.shields.io/github/license/ItsWagPvP/EconomyPlus?style=for-the-badge)
 
