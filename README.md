@@ -8,7 +8,7 @@
 
 ![License](https://img.shields.io/github/license/ItsWagPvP/EconomyPlus?style=for-the-badge)
 
-## Maven Instructions [![](https://jitpack.io/v/ItsWagPvP/EconomyPlus.svg)](https://jitpack.io/#ItsWagPvP/EconomyPlus)
+## Maven Instructions
 
 ### Maven
 Add this repository to your `pom.xml`:
