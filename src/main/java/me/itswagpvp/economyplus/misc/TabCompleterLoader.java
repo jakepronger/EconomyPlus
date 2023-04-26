@@ -1,7 +1,5 @@
 package me.itswagpvp.economyplus.misc;
 
-import me.itswagpvp.economyplus.database.CacheManager;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -47,7 +45,7 @@ public class TabCompleterLoader implements TabCompleter {
 
             else if (args.length == 2) {
                 if (args[1].equalsIgnoreCase("convert")) {
-                    Arrays.asList("UUID", "NICKNAME");
+                    return Arrays.asList("UUID", "NICKNAME");
                 }
             }
 
@@ -129,10 +127,8 @@ public class TabCompleterLoader implements TabCompleter {
         List<String> usernames = new ArrayList<>();
 
         for (OfflinePlayer op : Bukkit.getOfflinePlayers()) {
-            usernames.add(op.getName());
+            if (op.getName() != null) usernames.add(op.getName());
         }
-
-        // check if there is any extra players not in playerdata comparing db?
 
         return usernames;
 

@@ -14,12 +14,12 @@ public class YMLManager {
     }
 
     public double getTokens(String name) {
-        return plugin.getYMLData().getDouble("Data." + name + ".tokens", 0D);
+        return plugin.getYMLData().getDouble("Data." + name + ".money", 0D);
     }
 
     public void setTokens(String name, double value) {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            plugin.getYMLData().set("Data." + name + ".tokens", value);
+            plugin.getYMLData().set("Data." + name + ".money", value);
             plugin.saveYMLConfig();
         });
     }

@@ -2,17 +2,17 @@ package me.itswagpvp.economyplus.hooks;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
+import me.itswagpvp.economyplus.vault.Economy;
 import org.bukkit.entity.Player;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.database.CacheManager;
-import me.itswagpvp.economyplus.database.misc.Selector;
 import me.itswagpvp.economyplus.misc.Utils;
 
 /**
  * This class will be registered through the register-method in the
  * plugins onEnable-method.
  */
+
 public class PlaceholderAPI extends PlaceholderExpansion {
 
     public EconomyPlus plugin;
@@ -106,38 +106,26 @@ public class PlaceholderAPI extends PlaceholderExpansion {
             return "";
         }
 
-        Utils utilities = new Utils();
+        Utils utils = new Utils();
 
         // %economyplus_money%
-        if (identifier.equals("money")) {
-            if (CacheManager.getCache(1).get(Selector.playerToString(player)) == null) {
-                return new Utils().format(0D);
-            }
-            return new Utils().format(CacheManager.getCache(1).get(Selector.playerToString(player)));
+        if (identifier.equalsIgnoreCase("money")) {
+            return utils.format(new Economy(player).getBalance());
         }
 
-        //%economyplus_money_formatted%
-        if (identifier.equals("money_formatted")) {
-            if (CacheManager.getCache(1).get(Selector.playerToString(player)) == null) {
-                return new Utils().fixMoney(0D);
-            }
-            return String.valueOf(utilities.fixMoney(CacheManager.getCache(1).get(Selector.playerToString(player))));
+        // %economyplus_money_formatted%
+        else if (identifier.equalsIgnoreCase("money_formatted")) {
+            return utils.fixMoney(new Economy(player).getBank());
         }
 
         // %economyplus_bank%
-        if (identifier.equals("bank")) {
-            if (CacheManager.getCache(2).get(Selector.playerToString(player)) == null) {
-                return new Utils().format(0D);
-            }
-            return new Utils().format(CacheManager.getCache(2).get(Selector.playerToString(player)));
+        if (identifier.equalsIgnoreCase("bank")) {
+            return utils.format(new Economy(player).getBank());
         }
 
-        //%economyplus_money_formatted%
-        if (identifier.equals("bank_formatted")) {
-            if (CacheManager.getCache(2).get(Selector.playerToString(player)) == null) {
-                return new Utils().fixMoney(0D);
-            }
-            return String.valueOf(utilities.fixMoney(CacheManager.getCache(2).get(Selector.playerToString(player))));
+        // %economyplus_money_formatted%
+        if (identifier.equalsIgnoreCase("bank_formatted")) {
+            return utils.fixMoney(new Economy(player).getBank());
         }
 
         return "Invalid placeholder!";

@@ -1,9 +1,6 @@
 package me.itswagpvp.economyplus.database.mysql;
 
-import me.itswagpvp.economyplus.database.CacheManager;
-import me.itswagpvp.economyplus.database.sqlite.SQLite;
-import me.itswagpvp.economyplus.listener.PlayerHandler;
-import me.itswagpvp.economyplus.vault.Economy;
+import me.itswagpvp.economyplus.PlayerHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -232,58 +229,39 @@ public class MySQL {
     }
 
     // Convert a user (UUID/NICKNAME) from the database
-    public void changeUser(OfflinePlayer user, String convertTo) {
+    public void convertUser(OfflinePlayer user, String convertTo) {
 
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
-            String playerName = PlayerHandler.getName(user.getUniqueId().toString(), true);
-            if (playerName.equalsIgnoreCase(user.getUniqueId().toString())) {
-                // issue invalid user whilst trying to change
-                return;
+            String name = PlayerHandler.getName(user.getUniqueId(), true);
+            if (name.equalsIgnoreCase(user.getUniqueId().toString())) {
+                return; // invalid user whilst trying to change
             }
 
-            String playerUuid = String.valueOf(user.getUniqueId());
+            String uuid = String.valueOf(user.getUniqueId());
 
-            if (convertTo.equals("UUID")) {
+            if (convertTo.equalsIgnoreCase("UUID")) {
+
                 try {
                     PreparedStatement ps = connection.prepareStatement(
                             "UPDATE " + table + " " +
-                                    "SET player = \"" + playerUuid + "\" " +
-                                    "WHERE player = \"" + playerName + "\"");
+                                    "SET player = \"" + uuid + "\" " +
+                                    "WHERE player = \"" + name + "\"");
                     ps.executeUpdate();
                 } catch (SQLException ex) {
                     plugin.getLogger().log(Level.SEVERE, "Couldn't execute MySQL statement: ", ex);
                 }
 
-                Economy eco = new Economy(user);
-                if (CacheManager.getCache(1).containsKey(playerName)) {
-                    CacheManager.getCache(1).remove(playerName);
-                    CacheManager.getCache(1).put(user.getUniqueId().toString(), eco.getBalance());
-                }
-                if (CacheManager.getCache(2).containsKey(playerName)) {
-                    CacheManager.getCache(2).remove(playerName);
-                    CacheManager.getCache(2).put(user.getUniqueId().toString(), eco.getBank());
-                }
+            } else if (convertTo.equalsIgnoreCase("NICKNAME")) {
 
-            } else if (convertTo.equals("NICKNAME")) {
                 try {
                     PreparedStatement ps = connection.prepareStatement(
                             "UPDATE " + table + " " +
-                                    "SET player = \"" + playerName + "\" " +
-                                    "WHERE player = \"" + playerUuid + "\"");
+                                    "SET player = \"" + name + "\" " +
+                                    "WHERE player = \"" + uuid + "\"");
                     ps.executeUpdate();
                 } catch (SQLException ex) {
                     plugin.getLogger().log(Level.SEVERE, "Couldn't execute MySQL statement: ", ex);
-                }
-
-                Economy eco = new Economy(user);
-                if (CacheManager.getCache(1).containsKey(user.getUniqueId().toString())) {
-                    CacheManager.getCache(1).remove(user.getUniqueId().toString());
-                    CacheManager.getCache(1).put(playerName, eco.getBalance());
-                }
-                if (CacheManager.getCache(2).containsKey(user.getUniqueId().toString())) {
-                    CacheManager.getCache(2).remove(user.getUniqueId().toString());
-                    CacheManager.getCache(2).put(playerName, eco.getBank());
                 }
 
             }

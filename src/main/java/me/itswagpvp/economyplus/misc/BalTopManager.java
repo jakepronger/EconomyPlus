@@ -1,14 +1,13 @@
 package me.itswagpvp.economyplus.misc;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.database.CacheManager;
 import me.itswagpvp.economyplus.database.misc.DatabaseType;
 import me.itswagpvp.economyplus.database.misc.StorageMode;
-
 import me.itswagpvp.economyplus.database.mysql.MySQL;
 import me.itswagpvp.economyplus.database.sqlite.SQLite;
-import me.itswagpvp.economyplus.listener.PlayerHandler;
-import me.itswagpvp.economyplus.vault.Economy;
+import me.itswagpvp.economyplus.PlayerHandler;
+
+import me.itswagpvp.economyplus.database.yaml.YMLManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -30,7 +29,7 @@ public class BalTopManager {
 
     public static int getPages() {
 
-        double size = CacheManager.getCache(1).size();
+        double size = MySQL.getOrderedList().size();
         size = size / 10; // gets total amount of pages balance top uses
 
         int pages = Integer.parseInt(String.valueOf(size).split("\\.")[0]); // gets the int of size
@@ -48,10 +47,7 @@ public class BalTopManager {
 
         FileConfiguration config = new StorageManager().getStorageConfig();
 
-        boolean useUUID = false;
-        if (EconomyPlus.getStorageMode() == StorageMode.UUID) {
-            useUUID = true;
-        }
+        boolean useUUID = EconomyPlus.getStorageMode() == StorageMode.UUID;
 
         // sort mysql db in order
         // sort db lite in order
@@ -63,16 +59,19 @@ public class BalTopManager {
             for (Map.Entry<String, Double> user : MySQL.getOrderedList().entrySet()) {
 
                 String name = user.getKey();
+
                 if (useUUID) {
-                    name = PlayerHandler.getName(name, false);
-                    // purge check
-                    if (plugin.purgeInvalid) {
-                        if (name.equalsIgnoreCase("Invalid User")) {
+
+                    name = PlayerHandler.getName(UUID.fromString(name), false);
+
+                    if (name.equalsIgnoreCase("Invalid User")) { // purge
+                        if (plugin.purgeInvalid) {
                             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[EconomyPlus] Removed invalid account: " + name);
                             EconomyPlus.getDBType().removePlayer(name);
-                            CacheManager.getCache(1).remove(name);
                         }
+                        continue;
                     }
+
                 }
 
                 // exclude check
@@ -82,7 +81,7 @@ public class BalTopManager {
                     continue;
                 }
 
-                // add to baltop
+                // add to balance-top
                 PlayerData pData = new PlayerData(user.getKey(), user.getValue());
                 getBalTop().add(pData);
                 getBalTopName().put(pData.getName(), pData);
@@ -94,16 +93,20 @@ public class BalTopManager {
             for (Map.Entry<String, Double> user : SQLite.getOrderedList().entrySet()) {
 
                 String name = user.getKey();
+
                 if (useUUID) {
-                    name = PlayerHandler.getName(name, false);
-                    // purge check
-                    if (plugin.purgeInvalid) {
-                        if (name.equalsIgnoreCase("Invalid User")) {
+
+                    name = PlayerHandler.getName(UUID.fromString(name), false);
+
+                    // purge
+                    if (name.equalsIgnoreCase("Invalid User")) { // purge
+                        if (plugin.purgeInvalid) {
                             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[EconomyPlus] Removed invalid account: " + name);
                             EconomyPlus.getDBType().removePlayer(name);
-                            CacheManager.getCache(1).remove(name);
                         }
+                        continue;
                     }
+
                 }
 
                 // exclude check
@@ -113,27 +116,30 @@ public class BalTopManager {
                     continue;
                 }
 
-                // add to baltop
+                // add to balance-top
                 PlayerData pData = new PlayerData(user.getKey(), user.getValue());
                 getBalTop().add(pData);
                 getBalTopName().put(pData.getName(), pData);
 
             }
 
-        } else {
+        } else if (EconomyPlus.getDBType() == DatabaseType.YAML) {
 
-            for (Map.Entry<String, Double> value : CacheManager.getCache(1).entrySet()) { // loop through cache manager if db type is not mysql
+            // get values
+
+            /*
+
+            for (Map.Entry<String, Double> value : YMLManager) { // loop through cache manager if db type is not mysql
 
                 String name = value.getKey();
 
-                // purge check
-                if (useUUID && name.equalsIgnoreCase("Invalid User")) {
+                // purge
+                if (useUUID && name.equalsIgnoreCase("Invalid User")) { // purge
                     if (plugin.purgeInvalid) {
                         Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[EconomyPlus] Removed invalid account: " + name);
                         EconomyPlus.getDBType().removePlayer(name);
-                        CacheManager.getCache(1).remove(name);
-                        continue;
                     }
+                    continue;
                 }
 
                 // exclude check
@@ -148,10 +154,9 @@ public class BalTopManager {
                 getBalTop().add(pData);
                 getBalTopName().put(pData.getName(), pData);
 
-                // sort baltop
-                getBalTop().sort(new PlayerComparator());
-
             }
+
+             */
 
         }
 
@@ -193,7 +198,7 @@ public class BalTopManager {
 
         public String getName() {
             if (EconomyPlus.getStorageMode() != StorageMode.NICKNAME) {
-                return PlayerHandler.getName(name, false);
+                return PlayerHandler.getName(UUID.fromString(name), false);
             }
             return name;
         }

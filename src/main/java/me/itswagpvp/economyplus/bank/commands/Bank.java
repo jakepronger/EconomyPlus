@@ -1,5 +1,6 @@
 package me.itswagpvp.economyplus.bank.commands;
 
+import me.itswagpvp.economyplus.EconomyPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -7,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import me.itswagpvp.economyplus.EconomyPlus;
 import me.itswagpvp.economyplus.misc.Utils;
 import me.itswagpvp.economyplus.vault.Economy;
 
@@ -16,25 +16,25 @@ import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 public class Bank implements CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!plugin.getConfig().getBoolean("Bank.Enabled")) {
+        if (!EconomyPlus.bankEnabled) {
             sender.sendMessage(plugin.getMessage("Bank.Disabled"));
             Utils.playErrorSound(sender);
-            return true;
+            return false;
         }
 
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage(plugin.getMessage("NoConsole"));
-            return true;
+            return false;
         }
 
         Player p = (Player) sender;
 
         if (args.length == 0) {
 
-            if (!Utils.hasPerm(p, "economyplus.bank.view") && plugin.REQUIRE_BASIC_PERMISSIONS) {
-                return true;
+            if (!Utils.hasPerm(p, "economyplus.bank.view", true)) {
+                return false;
             }
 
             Utils utility = new Utils();
@@ -55,7 +55,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("withdraw")) {
 
-                if (!Utils.hasPerm(p, "economyplus.bank.withdraw") && plugin.REQUIRE_BASIC_PERMISSIONS) {
+                if (!Utils.hasPerm(p, "economyplus.bank.withdraw", true)) {
                     return true;
                 }
 
@@ -86,7 +86,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("deposit")) {
 
-                if (!Utils.hasPerm(p, "economyplus.bank.deposit") && plugin.REQUIRE_BASIC_PERMISSIONS) {
+                if (!Utils.hasPerm(p, "economyplus.bank.deposit", true)) {
                     return true;
                 }
 
@@ -124,7 +124,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("admin")) {
 
-                if (!Utils.hasPerm(p, "economyplus.bank.admin")) {
+                if (!Utils.hasPerm(p, "economyplus.bank.admin", false)) {
                     return true;
                 }
 
@@ -164,7 +164,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("admin")) {
 
-                if (!Utils.hasPerm(p, "economyplus.bank.admin")) {
+                if (!Utils.hasPerm(p, "economyplus.bank.admin", false)) {
                     return true;
                 }
 

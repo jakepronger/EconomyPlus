@@ -1,11 +1,10 @@
 package me.itswagpvp.economyplus.bank.other;
 
+import me.itswagpvp.economyplus.PlayerHandler;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.database.CacheManager;
-import me.itswagpvp.economyplus.database.misc.Selector;
 import me.itswagpvp.economyplus.misc.Utils;
 
 import static me.itswagpvp.economyplus.EconomyPlus.getDBType;
@@ -18,35 +17,29 @@ public class InterestsManager {
         long time = plugin.getConfig().getLong("Bank.Interests.Time", 300) * 20L;
         int interest = plugin.getConfig().getInt("Bank.Interests.Percentage", 10);
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
 
             for (String player : EconomyPlus.getDBType().getList()) {
 
-                Player p = Selector.stringToPlayer(player);
-
-                if (plugin.getConfig().getBoolean("Bank.Interests.Online-Player", true)) {
-                    if (p == null || !p.isOnline()) {
-                        continue;
-                    }
+                OfflinePlayer p = PlayerHandler.getPlayer(player);
+                if (p == null) {
+                    continue;
                 }
 
-                double bankValue = getDBType().getBank(player);
-                if (CacheManager.getCache(2).get(player) == null) {
-                    continue;
-                } else {
-                    bankValue = (bankValue * (100 + interest) / 100);
+                if (plugin.getConfig().getBoolean("Bank.Interests.Online-Player", true)) {
+                    if (!p.isOnline()) continue;
                 }
 
                 // Save the new bank in the cache and then in the db
-                CacheManager.getCache(2).put(player, bankValue);
-                EconomyPlus.getDBType().setBank(player, bankValue);
+                EconomyPlus.getDBType().setBank(player, getDBType().getBank(player) * (100 + interest) / 10);
 
-                if (p != null) {
-                    p.sendMessage(plugin.getMessage("Bank.Interests").replaceAll("%percentage%", "" + interest));
-                    Utils.playSuccessSound(p);
+                if (p.getPlayer() != null && p.isOnline()) {
+                    p.getPlayer().sendMessage(plugin.getMessage("Bank.Interests").replaceAll("%percentage%", "" + interest));
+                    Utils.playSuccessSound(p.getPlayer());
                 }
 
             }
-        }), time, time);
+
+        }, time, time);
     }
 }

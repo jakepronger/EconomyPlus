@@ -13,14 +13,18 @@ import java.util.regex.Pattern;
 
 import me.itswagpvp.economyplus.EconomyPlus;
 import me.itswagpvp.economyplus.database.misc.DatabaseType;
-import me.itswagpvp.economyplus.messages.Messages;
+import me.itswagpvp.economyplus.Messages;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 
 public class Utils {
 
     // No Perms
-    public static boolean hasPerm(CommandSender sender, String permission) {
+    public static boolean hasPerm(CommandSender sender, String permission, boolean isBasicPerm) {
+
+        if (isBasicPerm && !plugin.REQUIRE_BASIC_PERMISSIONS) {
+            return true;
+        }
 
         if (sender.hasPermission(permission)) {
             return true;

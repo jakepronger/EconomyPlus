@@ -1,4 +1,4 @@
-package me.itswagpvp.economyplus.messages;
+package me.itswagpvp.economyplus;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,9 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -33,8 +31,9 @@ public class Messages {
 
             if (!file.exists()) {
 
-                file.getParentFile().mkdirs();
+                plugin.saveResource("languages" + File.separator + name, false);
 
+                /*
                 InputStream stream = plugin.getResource(file.getName());
 
                 try {
@@ -51,6 +50,8 @@ public class Messages {
                     plugin.pluginLog("Failed to save " + file.getName() + " to: " + plugin.getDataFolder() + File.separator + "messages");
                     e.printStackTrace();
                 }
+
+                 */
 
             }
 

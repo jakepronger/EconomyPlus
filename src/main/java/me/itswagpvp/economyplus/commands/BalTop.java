@@ -5,7 +5,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import me.itswagpvp.economyplus.EconomyPlus;
 import me.itswagpvp.economyplus.misc.BalTopManager;
 import me.itswagpvp.economyplus.misc.Utils;
 
@@ -18,7 +17,7 @@ public class BalTop implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!Utils.hasPerm(sender, "economyplus.baltop") && plugin.REQUIRE_BASIC_PERMISSIONS) {
+        if (!Utils.hasPerm(sender, "economyplus.baltop", true)) {
             return true;
         }
 

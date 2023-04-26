@@ -2,7 +2,8 @@ package me.itswagpvp.economyplus.commands;
 
 import me.itswagpvp.economyplus.EconomyPlus;
 import me.itswagpvp.economyplus.database.misc.StorageMode;
-import me.itswagpvp.economyplus.listener.PlayerHandler;
+import me.itswagpvp.economyplus.PlayerHandler;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -17,14 +18,14 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
-import static me.itswagpvp.economyplus.listener.PlayerHandler.hasAccount;
+import static org.bukkit.Bukkit.getPlayer;
 
 public class Eco implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!Utils.hasPerm(sender, "economyplus.eco.reset") || !Utils.hasPerm(sender, "economyplus.eco.give") || !Utils.hasPerm(sender, "economyplus.eco.take") || !Utils.hasPerm(sender, "economyplus.eco.set")) {
+        if (!Utils.hasPerm(sender, "economyplus.eco.reset", false) || !Utils.hasPerm(sender, "economyplus.eco.give", false) || !Utils.hasPerm(sender, "economyplus.eco.take", false) || !Utils.hasPerm(sender, "economyplus.eco.set", false)) {
             return true;
         }
 
@@ -85,22 +86,15 @@ public class Eco implements CommandExecutor {
                         return true;
                     }
 
-                    p = Bukkit.getOfflinePlayer(args[0]);
+                    p = PlayerHandler.getPlayer(args[0]);
 
-                    if (!(p.hasPlayedBefore() || p.isOnline())) {
-
-                        if (plugin.SET_INVALID) {
-                            PlayerHandler.saveName(args[0], p.getUniqueId());
-                        } else {
-                            // player hasn't joined before and isn't currently online
-                            sender.sendMessage(plugin.getMessage("PlayerNotFound"));
-                            Utils.playErrorSound(sender);
-                            return true;
-                        }
-
+                    if (p == null || (!p.hasPlayedBefore() && !p.isOnline())) {
+                        sender.sendMessage(plugin.getMessage("PlayerNotFound"));
+                        Utils.playErrorSound(sender);
+                        return true;
                     }
 
-                    if (!Utils.hasPerm(sender, "economyplus.eco.reset")) {
+                    if (!Utils.hasPerm(sender, "economyplus.eco.reset", false)) {
                         return true;
                     } else {
 
@@ -126,7 +120,7 @@ public class Eco implements CommandExecutor {
 
         } else if (args.length == 3) {
 
-            if (!(args[1].equalsIgnoreCase("set") || args[1].equalsIgnoreCase("give") || args[1].equalsIgnoreCase("take"))) {
+            if (!args[1].equalsIgnoreCase("set") & !args[1].equalsIgnoreCase("give") & !args[1].equalsIgnoreCase("take")) {
                 sender.sendMessage(plugin.getMessage("InvalidArgs.Eco"));
                 Utils.playErrorSound(sender);
                 return false;
@@ -138,18 +132,12 @@ public class Eco implements CommandExecutor {
                 return true;
             }
 
-            OfflinePlayer p = hasAccount(args[0]);
+            OfflinePlayer p = PlayerHandler.getPlayer(args[0]);
 
-            if (p == null) {
-                if (plugin.SET_INVALID) {
-                    p = Bukkit.getOfflinePlayer(args[0]); // will cause considerable lag using network io (for save names and offline players)
-                    PlayerHandler.saveName(args[0], p.getUniqueId());
-                } else {
-                    // player hasn't joined before and isn't currently online
-                    sender.sendMessage(plugin.getMessage("PlayerNotFound"));
-                    Utils.playErrorSound(sender);
-                    return true;
-                }
+            if (p == null || (!p.hasPlayedBefore() && !p.isOnline())) {
+                sender.sendMessage(plugin.getMessage("PlayerNotFound"));
+                Utils.playErrorSound(sender);
+                return true;
             }
 
             String arg = args[2].replace(",", ".");
@@ -167,7 +155,7 @@ public class Eco implements CommandExecutor {
 
             if (args[1].equalsIgnoreCase("set")) {
 
-                if (!Utils.hasPerm(sender, "economyplus.eco.set")) {
+                if (!Utils.hasPerm(sender, "economyplus.eco.set", false)) {
                     return true;
                 }
 
@@ -193,7 +181,7 @@ public class Eco implements CommandExecutor {
 
             } else if (args[1].equalsIgnoreCase("take")) {
 
-                if (!Utils.hasPerm(sender, "economyplus.eco.take")) {
+                if (!Utils.hasPerm(sender, "economyplus.eco.take", false)) {
                     return true;
                 }
 
@@ -225,7 +213,7 @@ public class Eco implements CommandExecutor {
 
             } else if (args[1].equalsIgnoreCase("give")) {
 
-                if (!Utils.hasPerm(sender, "economyplus.eco.give")) {
+                if (!Utils.hasPerm(sender, "economyplus.eco.give", false)) {
                     return true;
                 }
 

@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.database.CacheManager;
 import me.itswagpvp.economyplus.database.misc.Selector;
 import me.itswagpvp.economyplus.hooks.events.PlayerBalanceChangeEvent;
 import me.itswagpvp.economyplus.hooks.events.PlayerBankChangeEvent;
@@ -31,7 +30,6 @@ public class Economy extends VEconomy {
 
         if (event.isCancelled()) return;
 
-        CacheManager.getCache(1).put(Selector.playerToString(player), money);
         EconomyPlus.getDBType().setTokens(Selector.playerToString(player), money);
     }
 
@@ -57,10 +55,7 @@ public class Economy extends VEconomy {
 
     // Returns the player bank
     public double getBank() {
-        if (CacheManager.getCache(2).get(Selector.playerToString(player)) == null) {
-            return 0D;
-        }
-        return CacheManager.getCache(2).get(Selector.playerToString(player));
+        return new Economy(player).getBank();
     }
 
     // Set player's bank to the constructor value
@@ -70,7 +65,7 @@ public class Economy extends VEconomy {
         Bukkit.getPluginManager().callEvent(event);
 
         if (event.isCancelled()) return;
-        CacheManager.getCache(2).put(Selector.playerToString(player), money);
+
         EconomyPlus.getDBType().setBank(Selector.playerToString(player), money);
     }
 

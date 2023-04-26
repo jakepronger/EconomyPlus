@@ -1,11 +1,10 @@
 package me.itswagpvp.economyplus.hooks.events;
 
-import org.bukkit.entity.Player;
+import me.itswagpvp.economyplus.PlayerHandler;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import me.itswagpvp.economyplus.database.misc.Selector;
 
 public class PlayerBankChangeEvent extends Event implements Cancellable {
 
@@ -47,7 +46,7 @@ public class PlayerBankChangeEvent extends Event implements Cancellable {
         this.newBank = newBank;
     }
 
-    public Player getPlayer() {
-        return Selector.stringToPlayer(player);
+    public OfflinePlayer getPlayer() {
+        return PlayerHandler.getPlayer(player);
     }
 }

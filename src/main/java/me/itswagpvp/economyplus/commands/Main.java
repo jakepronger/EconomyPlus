@@ -32,7 +32,7 @@ public class Main implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("reload")) {
 
-                if (!Utils.hasPerm(sender, "economyplus.reload")) {
+                if (!Utils.hasPerm(sender, "economyplus.reload", false)) {
                     return true;
                 }
 
@@ -95,7 +95,7 @@ public class Main implements CommandExecutor {
 
                 Player p = (Player) sender;
 
-                if (!Utils.hasPerm(p, "economyplus.hologram")) {
+                if (!Utils.hasPerm(p, "economyplus.hologram", false)) {
                     return true;
                 }
 
@@ -122,7 +122,7 @@ public class Main implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("update")) {
 
-                if (!Utils.hasPerm(sender, "economyplus.update")) {
+                if (!Utils.hasPerm(sender, "economyplus.update", false)) {
                     return true;
                 }
 

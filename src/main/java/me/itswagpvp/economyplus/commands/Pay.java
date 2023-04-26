@@ -25,7 +25,7 @@ public class Pay implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (!Utils.hasPerm(p, "economyplus.pay") && plugin.REQUIRE_BASIC_PERMISSIONS) {
+        if (!Utils.hasPerm(p, "economyplus.pay", true)) {
             return true;
         }
 

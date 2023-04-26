@@ -1,5 +1,6 @@
 package me.itswagpvp.economyplus.vault;
 
+import me.itswagpvp.economyplus.PlayerHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -11,8 +12,8 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.database.CacheManager;
 import me.itswagpvp.economyplus.database.misc.Selector;
+import org.bukkit.entity.Player;
 
 public class VEconomy implements Economy {
 
@@ -89,12 +90,7 @@ public class VEconomy implements Economy {
         final String actualInput = recoverType(playerName);
         return loggingAction(
                 actualInput + ".getBalance",
-                () -> {
-                    if (CacheManager.getCache(1).get(actualInput) == null) {
-                        return 0D;
-                    }
-                    return CacheManager.getCache(1).get(actualInput);
-                }
+                () -> new me.itswagpvp.economyplus.vault.Economy(PlayerHandler.getPlayer(playerName)).getBalance()
         );
     }
 
@@ -147,7 +143,6 @@ public class VEconomy implements Economy {
                     try {
                         tokens = getBalance(actualInput) - amount;
                         if (tokens >= 0) {
-                            CacheManager.getCache(1).put(actualInput, tokens);
                             EconomyPlus.getDBType().setTokens(actualInput, tokens);
                         } else {
                             return new EconomyResponse(amount, tokens, EconomyResponse.ResponseType.FAILURE, "Not enough moneys!");
@@ -185,7 +180,6 @@ public class VEconomy implements Economy {
                     double tokens = 0D;
                     try {
                         tokens = getBalance(actualInput) + amount;
-                        CacheManager.getCache(1).put(actualInput, tokens);
                         EconomyPlus.getDBType().setTokens(actualInput, tokens);
                     } catch (Exception e) {
                         return new EconomyResponse(amount, tokens, EconomyResponse.ResponseType.FAILURE, "Can't add moneys to the player " + actualInput);
