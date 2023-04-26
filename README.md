@@ -8,8 +8,6 @@
 
 ![License](https://img.shields.io/github/license/ItsWagPvP/EconomyPlus?style=for-the-badge)
 
-## Maven Instructions
-
 ### Maven
 Add this repository to your `pom.xml`:
 ```xml
