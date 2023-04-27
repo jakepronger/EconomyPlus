@@ -126,6 +126,10 @@ public class BalTopManager {
         } else if (EconomyPlus.getDBType() == DatabaseType.YAML) {
 
             // get values
+            HashMap<String, Integer> map = new HashMap<>();
+            for (String value : config.getConfigurationSection("data").getKeys(false)) {
+                map.put(
+            }
 
             /*
 
