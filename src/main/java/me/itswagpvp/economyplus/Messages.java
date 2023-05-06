@@ -30,29 +30,7 @@ public class Messages {
             File file = new File(path, name);
 
             if (!file.exists()) {
-
                 plugin.saveResource("languages" + File.separator + name, false);
-
-                /*
-                InputStream stream = plugin.getResource(file.getName());
-
-                try {
-
-                    if (stream != null) {
-                        if (!(new File(plugin.getDataFolder() + File.separator + "messages" + File.separator + file.getName()).exists())) {
-                            Files.copy(stream, new File(plugin.getDataFolder() + File.separator + "messages" + File.separator + file.getName()).toPath());
-                        }
-                    } else {
-                        plugin.pluginLog("&cInvalid file in plugin recourses while loading messages: " + file.getName());
-                    }
-
-                } catch (IOException e) {
-                    plugin.pluginLog("Failed to save " + file.getName() + " to: " + plugin.getDataFolder() + File.separator + "messages");
-                    e.printStackTrace();
-                }
-
-                 */
-
             }
 
         }

@@ -25,9 +25,11 @@ public class Eco implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!Utils.hasPerm(sender, "economyplus.eco.reset", false) || !Utils.hasPerm(sender, "economyplus.eco.give", false) || !Utils.hasPerm(sender, "economyplus.eco.take", false) || !Utils.hasPerm(sender, "economyplus.eco.set", false)) {
+        if (!Utils.hasPerm(sender, "economyplus.eco.reset", false)
+                || !Utils.hasPerm(sender, "economyplus.eco.give", false)
+                || !Utils.hasPerm(sender, "economyplus.eco.take", false)
+                || !Utils.hasPerm(sender, "economyplus.eco.set", false))
             return true;
-        }
 
         if (args.length == 2) {
 
@@ -116,6 +118,7 @@ public class Eco implements CommandExecutor {
                 }
 
                 return true;
+
             }
 
         } else if (args.length == 3) {

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 import static me.itswagpvp.economyplus.PlayerHandler.getName;
 
-public class Bal implements CommandExecutor {
+public class Balance implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {

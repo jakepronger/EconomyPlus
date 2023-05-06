@@ -1,6 +1,5 @@
 package me.itswagpvp.economyplus.bank.commands;
 
-import me.itswagpvp.economyplus.EconomyPlus;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import me.itswagpvp.economyplus.EconomyPlus;
 import me.itswagpvp.economyplus.misc.Utils;
 import me.itswagpvp.economyplus.vault.Economy;
 
@@ -37,13 +37,15 @@ public class Bank implements CommandExecutor {
                 return false;
             }
 
-            Utils utility = new Utils();
+            Utils utils = new Utils();
             double bank = new Economy(p).getBank();
 
             p.sendMessage(plugin.getMessage("Bank.Self")
-                    .replaceAll("%money_formatted%", "" + utility.fixMoney(bank))
-                    .replaceAll("%money%", "" + utility.format(bank)));
+                    .replaceAll("%money_formatted%", "" + utils.fixMoney(bank))
+                    .replaceAll("%money%", "" + utils.format(bank)));
+
             Utils.playSuccessSound(sender);
+
             return true;
         }
 
@@ -169,7 +171,8 @@ public class Bank implements CommandExecutor {
                 }
 
                 if (args[1].equalsIgnoreCase("set")) {
-                    Utils utility = new Utils();
+
+                    Utils utils = new Utils();
 
                     Player target = Bukkit.getPlayer(args[2]);
 
@@ -192,12 +195,12 @@ public class Bank implements CommandExecutor {
 
                     p.sendMessage(plugin.getMessage("Bank.Admin.Set")
                             .replaceAll("%player%", "" + target.getName())
-                            .replaceAll("%money_formatted%", "" + utility.fixMoney(bank))
-                            .replaceAll("%money%", "" + utility.format(bank)));
+                            .replaceAll("%money_formatted%", "" + utils.fixMoney(bank))
+                            .replaceAll("%money%", "" + utils.format(bank)));
 
                     target.sendMessage(plugin.getMessage("Bank.Admin.Refreshed")
-                            .replaceAll("%money_formatted%", "" + utility.fixMoney(bank))
-                            .replaceAll("%money%", "" + utility.format(bank)));
+                            .replaceAll("%money_formatted%", "" + utils.fixMoney(bank))
+                            .replaceAll("%money%", "" + utils.format(bank)));
 
                     Utils.playSuccessSound(p);
                     Utils.playErrorSound(target);
@@ -218,4 +221,5 @@ public class Bank implements CommandExecutor {
         return true;
 
     }
+
 }

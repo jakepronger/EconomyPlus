@@ -12,7 +12,7 @@ import java.util.List;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 
-public class BalTop implements CommandExecutor {
+public class BalanceTop implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

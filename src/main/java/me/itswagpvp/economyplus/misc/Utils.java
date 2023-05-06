@@ -19,7 +19,6 @@ import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 
 public class Utils {
 
-    // No Perms
     public static boolean hasPerm(CommandSender sender, String permission, boolean isBasicPerm) {
 
         if (isBasicPerm && !plugin.REQUIRE_BASIC_PERMISSIONS) {
@@ -43,15 +42,13 @@ public class Utils {
             return;
         }
 
-        if (sender instanceof ConsoleCommandSender) {
-            return;
-        }
+        if (sender instanceof ConsoleCommandSender) return;
 
-        Player player = (Player) sender;
+        Player p = (Player) sender;
 
         try {
-            Sound x = Sound.valueOf(plugin.getConfig().getString("Sounds.Error", "ENTITY_VILLAGER_NO"));
-            player.playSound(player.getPlayer().getLocation(), x, 1, 1);
+            Sound s = Sound.valueOf(plugin.getConfig().getString("Sounds.Error", "ENTITY_VILLAGER_NO"));
+            p.playSound(p.getLocation(), s, 1, 1);
         } catch (Exception e) {
             plugin.pluginLog("[EconomyPlus] &7Error on the &cplayErrorSound&7! Check your config!");
             e.printStackTrace();
@@ -66,15 +63,13 @@ public class Utils {
             return;
         }
 
-        if (sender instanceof ConsoleCommandSender) {
-            return;
-        }
+        if (sender instanceof ConsoleCommandSender) return;
 
-        Player player = (Player) sender;
+        Player p = (Player) sender;
 
         try {
-            Sound x = Sound.valueOf(plugin.getConfig().getString("Sounds.Success", "ENTITY_PLAYER_LEVELUP"));
-            player.playSound(player.getPlayer().getLocation(), x, 1, 1);
+            Sound s = Sound.valueOf(plugin.getConfig().getString("Sounds.Success", "ENTITY_PLAYER_LEVELUP"));
+            p.playSound(p.getLocation(), s, 1, 1);
         } catch (Exception e) {
             plugin.pluginLog("[EconomyPlus] &7Error on the &cplaySuccessSound§&! Check your config!");
             e.printStackTrace();
@@ -83,7 +78,7 @@ public class Utils {
 
     public static void reloadPlugin(CommandSender p) {
 
-        long before = System.currentTimeMillis();
+        long delay = System.currentTimeMillis();
 
         plugin.pluginLog("[EconomyPlus] &aReloading the plugin! This action may take a while!");
 
@@ -104,7 +99,7 @@ public class Utils {
             p.sendMessage("§cError on reloading the plugin! (" + e.getMessage() + ")");
         } finally {
             p.sendMessage(plugin.getMessage("Reload")
-                    .replaceAll("%time%", "" + (System.currentTimeMillis() - before)));
+                    .replaceAll("%time%", "" + (System.currentTimeMillis() - delay)));
         }
 
         plugin.pluginLog("&aReloaded!");
@@ -130,7 +125,7 @@ public class Utils {
 
     public String format(Double d) {
 
-        DecimalFormat df = new DecimalFormat("#.##"); //NUMBER CANNOT GO ABOVE BILLION DUE TO IT BEING A DOUBLE
+        DecimalFormat df = new DecimalFormat("#.##"); // NUMBER CANNOT GO ABOVE BILLION DUE TO IT BEING A DOUBLE
         if (plugin.getConfig().getBoolean("Pattern.Enabled")) {
             df = new DecimalFormat(plugin.getConfig().getString("Pattern.Value", "###,###.##"));
         }

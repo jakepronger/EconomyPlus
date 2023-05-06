@@ -433,11 +433,11 @@ public class EconomyPlus extends JavaPlugin {
 
     private void loadCommands() {
 
-        getCommand("baltop").setExecutor(new BalTop());
+        getCommand("baltop").setExecutor(new BalanceTop());
         getCommand("baltop").setTabCompleter(new TabCompleterLoader());
         getCommand("economyplus").setExecutor(new Main());
         getCommand("economyplus").setTabCompleter(new TabCompleterLoader());
-        getCommand("bal").setExecutor(new Bal());
+        getCommand("bal").setExecutor(new Balance());
         getCommand("bal").setTabCompleter(new TabCompleterLoader());
         getCommand("pay").setExecutor(new Pay());
         getCommand("pay").setTabCompleter(new TabCompleterLoader());
