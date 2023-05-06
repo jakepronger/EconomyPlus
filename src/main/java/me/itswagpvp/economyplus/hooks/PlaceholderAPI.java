@@ -6,7 +6,7 @@ import me.itswagpvp.economyplus.vault.Economy;
 import org.bukkit.entity.Player;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.misc.Utils;
+import me.itswagpvp.economyplus.utils.Utils;
 
 /**
  * This class will be registered through the register-method in the

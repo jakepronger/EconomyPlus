@@ -9,7 +9,7 @@ import org.bukkit.World;
 
 import me.itswagpvp.economyplus.misc.BalTopManager;
 import me.itswagpvp.economyplus.misc.StorageManager;
-import me.itswagpvp.economyplus.misc.Utils;;
+import me.itswagpvp.economyplus.utils.Utils;;
 
 import java.util.List;
 

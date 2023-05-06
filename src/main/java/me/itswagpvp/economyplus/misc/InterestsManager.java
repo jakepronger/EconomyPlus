@@ -1,11 +1,11 @@
-package me.itswagpvp.economyplus.bank.other;
+package me.itswagpvp.economyplus.misc;
 
 import me.itswagpvp.economyplus.PlayerHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.misc.Utils;
+import me.itswagpvp.economyplus.utils.Utils;
 
 import static me.itswagpvp.economyplus.EconomyPlus.getDBType;
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;

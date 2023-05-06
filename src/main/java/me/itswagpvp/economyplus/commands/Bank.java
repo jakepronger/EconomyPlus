@@ -1,4 +1,4 @@
-package me.itswagpvp.economyplus.bank.commands;
+package me.itswagpvp.economyplus.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -8,7 +8,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.misc.Utils;
+import me.itswagpvp.economyplus.utils.Utils;
 import me.itswagpvp.economyplus.vault.Economy;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;

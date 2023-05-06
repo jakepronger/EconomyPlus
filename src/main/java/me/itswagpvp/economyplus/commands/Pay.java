@@ -1,8 +1,7 @@
 package me.itswagpvp.economyplus.commands;
 
-import me.itswagpvp.economyplus.EconomyPlus;
 import me.itswagpvp.economyplus.misc.StorageManager;
-import me.itswagpvp.economyplus.misc.Utils;
+import me.itswagpvp.economyplus.utils.Utils;
 import me.itswagpvp.economyplus.vault.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

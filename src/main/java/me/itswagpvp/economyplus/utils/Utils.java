@@ -1,5 +1,6 @@
-package me.itswagpvp.economyplus.misc;
+package me.itswagpvp.economyplus.utils;
 
+import me.itswagpvp.economyplus.misc.StorageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
@@ -33,47 +34,6 @@ public class Utils {
         Utils.playErrorSound(sender);
 
         return false;
-    }
-
-    // Error sound played to player
-    public static void playErrorSound(CommandSender sender) {
-
-        if (!plugin.getConfig().getBoolean("Sounds.Use")) {
-            return;
-        }
-
-        if (sender instanceof ConsoleCommandSender) return;
-
-        Player p = (Player) sender;
-
-        try {
-            Sound s = Sound.valueOf(plugin.getConfig().getString("Sounds.Error", "ENTITY_VILLAGER_NO"));
-            p.playSound(p.getLocation(), s, 1, 1);
-        } catch (Exception e) {
-            plugin.pluginLog("[EconomyPlus] &7Error on the &cplayErrorSound&7! Check your config!");
-            e.printStackTrace();
-        }
-
-    }
-
-    // Success sound played to player
-    public static void playSuccessSound(CommandSender sender) {
-
-        if (!plugin.getConfig().getBoolean("Sounds.Use")) {
-            return;
-        }
-
-        if (sender instanceof ConsoleCommandSender) return;
-
-        Player p = (Player) sender;
-
-        try {
-            Sound s = Sound.valueOf(plugin.getConfig().getString("Sounds.Success", "ENTITY_PLAYER_LEVELUP"));
-            p.playSound(p.getLocation(), s, 1, 1);
-        } catch (Exception e) {
-            plugin.pluginLog("[EconomyPlus] &7Error on the &cplaySuccessSound§&! Check your config!");
-            e.printStackTrace();
-        }
     }
 
     public static void reloadPlugin(CommandSender p) {

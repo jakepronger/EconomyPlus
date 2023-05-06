@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.itswagpvp.economyplus.PlayerHandler;
-import me.itswagpvp.economyplus.misc.Utils;
+import me.itswagpvp.economyplus.utils.Utils;
 import me.itswagpvp.economyplus.vault.Economy;
 import org.jetbrains.annotations.NotNull;
 

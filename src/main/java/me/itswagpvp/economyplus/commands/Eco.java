@@ -11,7 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import me.itswagpvp.economyplus.misc.Utils;
+import me.itswagpvp.economyplus.utils.Utils;
 import me.itswagpvp.economyplus.vault.Economy;
 import org.bukkit.entity.Player;
 

@@ -1,7 +1,7 @@
 package me.itswagpvp.economyplus;
 
-import me.itswagpvp.economyplus.bank.commands.Bank;
-import me.itswagpvp.economyplus.bank.other.InterestsManager;
+import me.itswagpvp.economyplus.commands.Bank;
+import me.itswagpvp.economyplus.misc.InterestsManager;
 import me.itswagpvp.economyplus.commands.*;
 import me.itswagpvp.economyplus.database.misc.DatabaseType;
 import me.itswagpvp.economyplus.database.misc.StorageMode;
@@ -11,6 +11,7 @@ import me.itswagpvp.economyplus.hooks.PlaceholderAPI;
 import me.itswagpvp.economyplus.hooks.holograms.HolographicDisplays;
 import me.itswagpvp.economyplus.metrics.bStats;
 import me.itswagpvp.economyplus.misc.*;
+import me.itswagpvp.economyplus.utils.Utils;
 import me.itswagpvp.economyplus.vault.VEconomy;
 
 import org.bukkit.Bukkit;

@@ -1,5 +1,6 @@
 package me.itswagpvp.economyplus.misc;
 
+import me.itswagpvp.economyplus.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
