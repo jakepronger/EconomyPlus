@@ -32,7 +32,7 @@ public class Messages {
             File file = new File(path, name);
 
             if (!file.exists()) {
-                plugin.saveResource("language" + File.separator + name, false);
+                plugin.saveResource("languages" + File.separator + name, false);
             }
 
         }
