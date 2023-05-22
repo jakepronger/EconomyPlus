@@ -17,27 +17,31 @@ public class Utils {
 
     public boolean hasPerm(CommandSender sender, String permission, boolean isBasicPerm) {
 
-        if (isBasicPerm && !plugin.REQUIRE_BASIC_PERMISSIONS) {
-            return true;
+        if (isBasicPerm && !plugin.bperms) {
+            return false;
         }
 
         if (sender.hasPermission(permission)) {
-            return true;
+            return false;
         }
 
         sender.sendMessage(plugin.getMessage("NoPerms"));
+
         sound.error(sender);
 
-        return false;
+        return true;
     }
 
     public String hexColor(String text) {
+
         Pattern pattern = Pattern.compile("#[a-fA-f0-9]{6}");
         Matcher matcher = pattern.matcher(text);
+
         while (matcher.find()) {
             String color = text.substring(matcher.start(), matcher.end());
-            text = text.replace(color, net.md_5.bungee.api.ChatColor.of(color) + "");
+            text = text.replace(color, net.md_5.bungee.api.ChatColor.of(color));
         }
+
         return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', text);
     }
 
@@ -63,7 +67,7 @@ public class Utils {
 
         String value = df.format(d);
 
-        if (!(value.contains("."))) {
+        if (!value.contains(".")) {
             value = value + "." + 00;
         }
 
@@ -97,22 +101,15 @@ public class Utils {
 
     public String fixMoney(Double d) {
 
-        if (d < 1000L) {
-            return format(d);
-        }
         if (d < 1000000L) {
             return format(d / 1000D) + plugin.getConfig().get("Formatted-Placeholder.1000");
-        }
-        if (d < 1000000000L) {
+        } else if (d < 1000000000L) {
             return format(d / 1000000D) + plugin.getConfig().get("Formatted-Placeholder.1000000");
-        }
-        if (d < 1000000000000L) {
+        } else if (d < 1000000000000L) {
             return format(d / 1000000000D) + plugin.getConfig().get("Formatted-Placeholder.1000000000");
-        }
-        if (d < 1000000000000000L) {
+        } else if (d < 1000000000000000L) {
             return format(d / 1000000000000D) + plugin.getConfig().get("Formatted-Placeholder.1000000000000");
-        }
-        if (d < 1000000000000000000L) {
+        } else if (d < 1000000000000000000L) {
             return format(d / 1000000000000000D) + plugin.getConfig().get("Formatted-Placeholder.1000000000000");
         }
 

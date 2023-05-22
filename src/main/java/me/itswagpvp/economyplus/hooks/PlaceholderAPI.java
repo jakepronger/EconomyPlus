@@ -2,7 +2,7 @@ package me.itswagpvp.economyplus.hooks;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 
-import me.itswagpvp.economyplus.vault.Economy;
+import me.itswagpvp.economyplus.hooks.vault.Economy;
 import org.bukkit.entity.Player;
 
 import me.itswagpvp.economyplus.EconomyPlus;

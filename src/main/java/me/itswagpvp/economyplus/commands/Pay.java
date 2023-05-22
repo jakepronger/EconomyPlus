@@ -2,7 +2,7 @@ package me.itswagpvp.economyplus.commands;
 
 import me.itswagpvp.economyplus.misc.StorageManager;
 import me.itswagpvp.economyplus.utils.Utils;
-import me.itswagpvp.economyplus.vault.Economy;
+import me.itswagpvp.economyplus.hooks.vault.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +24,7 @@ public class Pay implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (!Utils.hasPerm(p, "economyplus.pay", true)) {
+        if (Utils.hasPerm(p, "economyplus.pay", true)) {
             return true;
         }
 

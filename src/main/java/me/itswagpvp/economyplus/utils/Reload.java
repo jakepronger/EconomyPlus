@@ -4,6 +4,7 @@ import me.itswagpvp.economyplus.EconomyPlus;
 import me.itswagpvp.economyplus.Messages;
 import me.itswagpvp.economyplus.database.misc.DatabaseType;
 import me.itswagpvp.economyplus.misc.StorageManager;
+
 import org.bukkit.command.CommandSender;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
@@ -16,7 +17,7 @@ public class Reload {
 
         long delay = System.currentTimeMillis();
 
-        plugin.pluginLog("[EconomyPlus] &aReloading the plugin! This action may take a while!");
+        utils .log("[EconomyPlus] &aReloading the plugin! This action may take a while!");
 
         try {
 

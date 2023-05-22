@@ -11,13 +11,14 @@ import me.itswagpvp.economyplus.utils.Utils;
 import java.util.List;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
+import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class BalanceTop implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!Utils.hasPerm(sender, "economyplus.baltop", true)) {
+        if (utils.hasPerm(sender, "economyplus.baltop", true)) {
             return true;
         }
 
@@ -26,8 +27,6 @@ public class BalanceTop implements CommandExecutor {
             List<String> header = plugin.getConfig().getStringList("Baltop.Chat.Header");
 
             BalTopManager balTopManager = plugin.getBalTopManager();
-
-            Utils utilities = new Utils();
 
             int page;
 
@@ -57,9 +56,9 @@ public class BalanceTop implements CommandExecutor {
 
                 sender.sendMessage(plugin.getConfig().getString("Baltop.Chat.Player-Format")
                         .replaceAll("&", "§")
-                        .replaceAll("%number%", "" + (i + 1))
-                        .replaceAll("%player%", "" + name)
-                        .replaceAll("%money%", "" + utilities.format(money))
+                        .replaceAll("%number%", String.valueOf(i + 1))
+                        .replaceAll("%player%", name)
+                        .replaceAll("%money%", "" + utils.format(money))
                         .replaceAll("%money_formatted%", "" + utilities.fixMoney(money)));
             }
 

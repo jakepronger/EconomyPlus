@@ -1,7 +1,7 @@
 package me.itswagpvp.economyplus;
 
 import me.itswagpvp.economyplus.misc.Updater;
-import me.itswagpvp.economyplus.vault.Economy;
+import me.itswagpvp.economyplus.hooks.vault.Economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

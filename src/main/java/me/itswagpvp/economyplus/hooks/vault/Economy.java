@@ -1,4 +1,4 @@
-package me.itswagpvp.economyplus.vault;
+package me.itswagpvp.economyplus.hooks.vault;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

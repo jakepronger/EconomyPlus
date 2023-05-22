@@ -8,11 +8,12 @@ import org.bukkit.entity.Player;
 
 import me.itswagpvp.economyplus.PlayerHandler;
 import me.itswagpvp.economyplus.utils.Utils;
-import me.itswagpvp.economyplus.vault.Economy;
+import me.itswagpvp.economyplus.hooks.vault.Economy;
 import org.jetbrains.annotations.NotNull;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 import static me.itswagpvp.economyplus.PlayerHandler.getName;
+import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class Balance implements CommandExecutor {
@@ -20,7 +21,7 @@ public class Balance implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 
-        if (!utils.hasPerm(sender, "economyplus.balance", true)) {
+        if (utils.hasPerm(sender, "economyplus.balance", true)) {
             return true;
         }
 
@@ -33,10 +34,10 @@ public class Balance implements CommandExecutor {
                 Economy eco = new Economy(p);
 
                 sender.sendMessage(plugin.getMessage("Balance.Self")
-                        .replaceAll("%money%", "" + new Utils().format(eco.getBalance()))
-                        .replaceAll("%money_formatted%", "" + new Utils().fixMoney(eco.getBalance())));
+                        .replaceAll("%money%", new Utils().format(eco.getBalance()))
+                        .replaceAll("%money_formatted%", new Utils().fixMoney(eco.getBalance())));
 
-                utils.playSuccessSound(sender);
+                sound.success(sender);
 
                 return true;
 
@@ -74,7 +75,7 @@ public class Balance implements CommandExecutor {
                         .replaceAll("%player%", "" + name));
             }
 
-            Utils.playSuccessSound(sender);
+            sound.success(sender);
 
             return true;
 
@@ -82,7 +83,7 @@ public class Balance implements CommandExecutor {
 
         sender.sendMessage(plugin.getMessage("InvalidArgs.Balance"));
 
-        Utils.playErrorSound(sender);
+        sound.error(sender);
 
         return true;
 

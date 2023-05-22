@@ -12,7 +12,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import me.itswagpvp.economyplus.utils.Utils;
-import me.itswagpvp.economyplus.vault.Economy;
+import me.itswagpvp.economyplus.hooks.vault.Economy;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -25,10 +25,10 @@ public class Eco implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (!Utils.hasPerm(sender, "economyplus.eco.reset", false)
-                || !Utils.hasPerm(sender, "economyplus.eco.give", false)
-                || !Utils.hasPerm(sender, "economyplus.eco.take", false)
-                || !Utils.hasPerm(sender, "economyplus.eco.set", false))
+        if (Utils.hasPerm(sender, "economyplus.eco.reset", false)
+                || Utils.hasPerm(sender, "economyplus.eco.give", false)
+                || Utils.hasPerm(sender, "economyplus.eco.take", false)
+                || Utils.hasPerm(sender, "economyplus.eco.set", false))
             return true;
 
         if (args.length == 2) {
@@ -96,7 +96,7 @@ public class Eco implements CommandExecutor {
                         return true;
                     }
 
-                    if (!Utils.hasPerm(sender, "economyplus.eco.reset", false)) {
+                    if (Utils.hasPerm(sender, "economyplus.eco.reset", false)) {
                         return true;
                     } else {
 
@@ -126,7 +126,7 @@ public class Eco implements CommandExecutor {
             if (!args[1].equalsIgnoreCase("set") & !args[1].equalsIgnoreCase("give") & !args[1].equalsIgnoreCase("take")) {
                 sender.sendMessage(plugin.getMessage("InvalidArgs.Eco"));
                 Utils.playErrorSound(sender);
-                return false;
+                return true;
             }
 
             if (args[0].equalsIgnoreCase("@a") || args[0].equalsIgnoreCase("*")) {
@@ -158,7 +158,7 @@ public class Eco implements CommandExecutor {
 
             if (args[1].equalsIgnoreCase("set")) {
 
-                if (!Utils.hasPerm(sender, "economyplus.eco.set", false)) {
+                if (Utils.hasPerm(sender, "economyplus.eco.set", false)) {
                     return true;
                 }
 
@@ -184,7 +184,7 @@ public class Eco implements CommandExecutor {
 
             } else if (args[1].equalsIgnoreCase("take")) {
 
-                if (!Utils.hasPerm(sender, "economyplus.eco.take", false)) {
+                if (Utils.hasPerm(sender, "economyplus.eco.take", false)) {
                     return true;
                 }
 
@@ -216,7 +216,7 @@ public class Eco implements CommandExecutor {
 
             } else if (args[1].equalsIgnoreCase("give")) {
 
-                if (!Utils.hasPerm(sender, "economyplus.eco.give", false)) {
+                if (Utils.hasPerm(sender, "economyplus.eco.give", false)) {
                     return true;
                 }
 

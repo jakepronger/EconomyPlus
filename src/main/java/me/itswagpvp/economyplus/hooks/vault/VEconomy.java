@@ -1,4 +1,4 @@
-package me.itswagpvp.economyplus.vault;
+package me.itswagpvp.economyplus.hooks.vault;
 
 import me.itswagpvp.economyplus.PlayerHandler;
 import org.bukkit.Bukkit;
@@ -13,7 +13,6 @@ import net.milkbowl.vault.economy.EconomyResponse;
 
 import me.itswagpvp.economyplus.EconomyPlus;
 import me.itswagpvp.economyplus.database.misc.Selector;
-import org.bukkit.entity.Player;
 
 public class VEconomy implements Economy {
 
@@ -90,7 +89,7 @@ public class VEconomy implements Economy {
         final String actualInput = recoverType(playerName);
         return loggingAction(
                 actualInput + ".getBalance",
-                () -> new me.itswagpvp.economyplus.vault.Economy(PlayerHandler.getPlayer(playerName)).getBalance()
+                () -> new me.itswagpvp.economyplus.hooks.vault.Economy(PlayerHandler.getPlayer(playerName)).getBalance()
         );
     }
 

@@ -9,35 +9,36 @@ import org.bukkit.entity.Player;
 
 import me.itswagpvp.economyplus.EconomyPlus;
 import me.itswagpvp.economyplus.utils.Utils;
-import me.itswagpvp.economyplus.vault.Economy;
+import me.itswagpvp.economyplus.hooks.vault.Economy;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
+import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
+import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class Bank implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!EconomyPlus.bankEnabled) {
+        if (!plugin.bank) {
             sender.sendMessage(plugin.getMessage("Bank.Disabled"));
-            Utils.playErrorSound(sender);
-            return false;
+            sound.error(sender);
+            return true;
         }
 
         if (sender instanceof ConsoleCommandSender) {
             sender.sendMessage(plugin.getMessage("NoConsole"));
-            return false;
+            return true;
         }
 
         Player p = (Player) sender;
 
         if (args.length == 0) {
 
-            if (!Utils.hasPerm(p, "economyplus.bank.view", true)) {
-                return false;
+            if (utils.hasPerm(p, "economyplus.bank.view", true)) {
+                return true;
             }
 
-            Utils utils = new Utils();
             double bank = new Economy(p).getBank();
 
             p.sendMessage(plugin.getMessage("Bank.Self")
@@ -57,7 +58,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("withdraw")) {
 
-                if (!Utils.hasPerm(p, "economyplus.bank.withdraw", true)) {
+                if (Utils.hasPerm(p, "economyplus.bank.withdraw", true)) {
                     return true;
                 }
 
@@ -88,7 +89,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("deposit")) {
 
-                if (!Utils.hasPerm(p, "economyplus.bank.deposit", true)) {
+                if (Utils.hasPerm(p, "economyplus.bank.deposit", true)) {
                     return true;
                 }
 
@@ -126,7 +127,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("admin")) {
 
-                if (!Utils.hasPerm(p, "economyplus.bank.admin", false)) {
+                if (Utils.hasPerm(p, "economyplus.bank.admin", false)) {
                     return true;
                 }
 
@@ -166,7 +167,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("admin")) {
 
-                if (!Utils.hasPerm(p, "economyplus.bank.admin", false)) {
+                if (Utils.hasPerm(p, "economyplus.bank.admin", false)) {
                     return true;
                 }
 

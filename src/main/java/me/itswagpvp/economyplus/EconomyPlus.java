@@ -11,7 +11,7 @@ import me.itswagpvp.economyplus.hooks.PlaceholderAPI;
 import me.itswagpvp.economyplus.hooks.holograms.HolographicDisplays;
 import me.itswagpvp.economyplus.metrics.bStats;
 import me.itswagpvp.economyplus.misc.*;
-import me.itswagpvp.economyplus.vault.VEconomy;
+import me.itswagpvp.economyplus.hooks.vault.VEconomy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

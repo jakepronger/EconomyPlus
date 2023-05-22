@@ -23,7 +23,7 @@ public class PayToggle implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (!Utils.hasPerm(p, "economyplus.paytoggle", true)) {
+        if (Utils.hasPerm(p, "economyplus.paytoggle", true)) {
             return true;
         }
 
