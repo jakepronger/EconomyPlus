@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import me.itswagpvp.economyplus.listeners.PlayerHandler;
 import me.itswagpvp.economyplus.utils.Utils;
 import me.itswagpvp.economyplus.hooks.vault.Economy;
-import org.jetbrains.annotations.NotNull;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 import static me.itswagpvp.economyplus.listeners.PlayerHandler.getName;
@@ -19,7 +18,7 @@ import static me.itswagpvp.economyplus.utils.Utils.utils;
 public class Balance implements CommandExecutor {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (utils.hasPerm(sender, "economyplus.balance", true)) {
             return true;

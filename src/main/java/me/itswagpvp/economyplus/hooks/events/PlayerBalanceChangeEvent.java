@@ -1,5 +1,6 @@
 package me.itswagpvp.economyplus.hooks.events;
 
+import me.itswagpvp.economyplus.hooks.vault.Economy;
 import me.itswagpvp.economyplus.listeners.PlayerHandler;
 
 import org.bukkit.OfflinePlayer;
@@ -10,19 +11,19 @@ import org.bukkit.event.HandlerList;
 public class PlayerBalanceChangeEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
+
     private final String player;
     private boolean isCancelled;
     private double newBalance;
+    private double oldBalance;
 
     public PlayerBalanceChangeEvent(String player, double newBalance) {
         this.player = player;
+        this.oldBalance = new Economy(PlayerHandler.getPlayer(player)).getBalance();
         this.newBalance = newBalance;
     }
 
-    public static HandlerList getHandlerList() {
-        return HANDLERS;
-    }
-
+    @Override
     public HandlerList getHandlers() {
         return HANDLERS;
     }
@@ -37,15 +38,19 @@ public class PlayerBalanceChangeEvent extends Event implements Cancellable {
         isCancelled = cancel;
     }
 
-    public double getNewBalance() {
+    public double newBalance() {
         return newBalance;
     }
+    public double oldBalance() {
+        return oldBalance;
+    }
 
-    public void setNewBalance(double newBalance) {
-        this.newBalance = newBalance;
+    public double getAmount() {
+        return newBalance - oldBalance;
     }
 
     public OfflinePlayer getPlayer() {
         return PlayerHandler.getPlayer(player);
     }
+
 }

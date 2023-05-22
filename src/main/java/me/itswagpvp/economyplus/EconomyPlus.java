@@ -2,6 +2,7 @@ package me.itswagpvp.economyplus;
 
 import me.itswagpvp.economyplus.commands.Bank;
 import me.itswagpvp.economyplus.listeners.PlayerHandler;
+import me.itswagpvp.economyplus.messages.Messages;
 import me.itswagpvp.economyplus.misc.InterestsManager;
 import me.itswagpvp.economyplus.commands.*;
 import me.itswagpvp.economyplus.database.misc.DatabaseType;
@@ -29,7 +30,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import static me.itswagpvp.economyplus.Messages.getMessageConfig;
+import static me.itswagpvp.economyplus.messages.Messages.getMessageConfig;
+import static me.itswagpvp.economyplus.messages.Messages.messages;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class EconomyPlus extends JavaPlugin {
@@ -505,7 +507,7 @@ public class EconomyPlus extends JavaPlugin {
 
     private void loadMessages() {
 
-        Messages.load();
+        messages.load();
 
         String messages = getConfig().getString("Language");
         if (!(Messages.getMessageConfig(messages.toUpperCase()) == null)) {

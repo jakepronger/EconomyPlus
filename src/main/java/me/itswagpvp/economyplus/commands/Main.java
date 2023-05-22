@@ -4,7 +4,7 @@ import me.itswagpvp.economyplus.hooks.holograms.HolographicDisplays;
 import me.itswagpvp.economyplus.misc.Converter;
 import me.itswagpvp.economyplus.misc.StorageManager;
 import me.itswagpvp.economyplus.misc.Updater;
-import me.itswagpvp.economyplus.utils.Utils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -16,6 +16,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
+import static me.itswagpvp.economyplus.utils.Reload.reload;
+import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
+import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class Main implements CommandExecutor {
 
@@ -32,26 +35,26 @@ public class Main implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("reload")) {
 
-                if (Utils.hasPerm(sender, "economyplus.reload", false)) {
+                if (utils.hasPerm(sender, "economyplus.reload", false)) {
                     return true;
                 }
 
-                Utils.reloadPlugin(sender);
-
-                Utils.playSuccessSound(sender);
+                reload.execute(sender);
+                sound.success(sender);
 
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("debug")) {
 
-                if (!(sender instanceof ConsoleCommandSender)) {
+                if (sender instanceof Player) {
 
                     if (plugin.isMessageEnabled("NoPlayer")) {
                         sender.sendMessage(plugin.getMessage("NoPlayer"));
                     }
 
-                    Utils.playErrorSound(sender);
+                    sound.error(sender);
+
                     return true;
                 }
 
@@ -76,17 +79,17 @@ public class Main implements CommandExecutor {
                 sender.sendMessage("§8+------------------------------------+");
 
                 return true;
+
             }
 
-            if (args[0].equalsIgnoreCase("help")) {
+            else if (args[0].equalsIgnoreCase("help")) {
                 sender.sendMessage("§d§lEconomy§5§lPlus §7v" + plugin.getDescription().getVersion() + " made by §d_ItsWagPvP");
                 sender.sendMessage("§7If you need support, join the discord server!");
                 sender.sendMessage("§f-> §9https://discord.itswagpvp.eu/");
-
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("hologram")) {
+            else if (args[0].equalsIgnoreCase("hologram")) {
 
                 if (sender instanceof ConsoleCommandSender) {
                     sender.sendMessage(plugin.getMessage("NoConsole"));
@@ -95,7 +98,7 @@ public class Main implements CommandExecutor {
 
                 Player p = (Player) sender;
 
-                if (Utils.hasPerm(p, "economyplus.hologram", false)) {
+                if (utils.hasPerm(p, "economyplus.hologram", false)) {
                     return true;
                 }
 
@@ -118,28 +121,31 @@ public class Main implements CommandExecutor {
                 new HolographicDisplays().createHologram();
 
                 return true;
+
             }
 
-            if (args[0].equalsIgnoreCase("update")) {
+            else if (args[0].equalsIgnoreCase("update")) {
 
-                if (Utils.hasPerm(sender, "economyplus.update", false)) {
+                if (utils.hasPerm(sender, "economyplus.update", false)) {
                     return true;
                 }
 
                 Updater.downloadUpdate(sender);
 
                 return true;
+
             }
 
         }
 
-        if (args.length == 2) {
+        else if (args.length == 2) {
+
             if (args[0].equalsIgnoreCase("convert")) {
 
-                if (!(sender instanceof ConsoleCommandSender)) {
+                if (sender instanceof Player) {
                     if (plugin.isMessageEnabled("NoPlayer")) {
                         sender.sendMessage(plugin.getMessage("NoPlayer"));
-                        Utils.playErrorSound(sender);
+                        sound.error(sender);
                     }
                     return true;
                 }
@@ -171,14 +177,15 @@ public class Main implements CommandExecutor {
                 }
 
                 return true;
+
             }
 
-            if (args[0].equalsIgnoreCase("exclude")) {
+            else if (args[0].equalsIgnoreCase("exclude")) {
 
                 if (!(sender instanceof ConsoleCommandSender)) {
                     if (plugin.isMessageEnabled("NoPlayer")) {
                         sender.sendMessage(plugin.getMessage("NoPlayer"));
-                        Utils.playErrorSound(sender);
+                        sound.error(sender);
                     }
                     return true;
                 }
@@ -194,12 +201,16 @@ public class Main implements CommandExecutor {
                 new StorageManager().saveStorageConfig();
 
                 return true;
+
             }
+
         }
 
         sender.sendMessage(plugin.getMessage("InvalidArgs.Main"));
-        Utils.playErrorSound(sender);
+        sound.error(sender);
 
         return true;
+
     }
+
 }

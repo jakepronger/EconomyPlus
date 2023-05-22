@@ -1,4 +1,4 @@
-package me.itswagpvp.economyplus;
+package me.itswagpvp.economyplus.messages;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,9 +19,11 @@ import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 
 public class Messages {
 
+    public static Messages messages = new Messages();
+
     private static final String path = plugin.getDataFolder() + "/messages";
 
-    public static void load() {
+    public void load() {
 
         List<String> languages = getLanguages();
 
@@ -30,14 +32,14 @@ public class Messages {
             File file = new File(path, name);
 
             if (!file.exists()) {
-                plugin.saveResource("languages" + File.separator + name, false);
+                plugin.saveResource("language" + File.separator + name, false);
             }
 
         }
 
     }
 
-    public static FileConfiguration getMessageConfig(String name) {
+    public FileConfiguration getMessageConfig(String name) {
         File file = new File(path, name + ".yml");
         if (file.exists()) {
             return YamlConfiguration.loadConfiguration(new File(path, name + ".yml"));
@@ -45,7 +47,7 @@ public class Messages {
         return null;
     }
 
-    public static List<String> getLanguages() { // returns a list of file names that don't contain a / in the path
+    public List<String> getLanguages() { // returns a list of file names that don't contain a / in the path
 
         // loop through all files in recourses folder
 

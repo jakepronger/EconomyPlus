@@ -1,7 +1,6 @@
 package me.itswagpvp.economyplus.commands;
 
 import me.itswagpvp.economyplus.misc.StorageManager;
-import me.itswagpvp.economyplus.utils.Utils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
+import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
+import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class PayToggle implements CommandExecutor {
 
@@ -23,7 +24,7 @@ public class PayToggle implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (Utils.hasPerm(p, "economyplus.paytoggle", true)) {
+        if (utils.hasPerm(p, "economyplus.paytoggle", true)) {
             return true;
         }
 
@@ -36,9 +37,10 @@ public class PayToggle implements CommandExecutor {
             p.sendMessage(plugin.getMessage("Pay.Toggle.Disabled"));
         }
 
-        Utils.playSuccessSound(p);
+        sound.success(p);
         storage.saveStorageConfig();
 
         return true;
     }
+
 }

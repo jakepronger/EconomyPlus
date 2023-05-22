@@ -27,14 +27,13 @@ public class Utils {
         }
 
         sender.sendMessage(plugin.getMessage("NoPerms"));
-
         sound.error(sender);
 
         return true;
     }
 
     public void log(String text) { // send plugin message to console
-        Bukkit.getConsoleSender().sendMessage("[" + plugin.getName() + "] " + text);
+        Bukkit.getConsoleSender().sendMessage("[" + plugin.getName() + "] " + ChatColor.translateAlternateColorCodes('&', text));
     }
 
     public String getString(String path, String def) {
@@ -55,7 +54,7 @@ public class Utils {
 
         while (matcher.find()) {
             String color = text.substring(matcher.start(), matcher.end());
-            text = text.replace(color, net.md_5.bungee.api.ChatColor.of(color));
+            text = text.replace(color, String.valueOf(net.md_5.bungee.api.ChatColor.of(color)));
         }
 
         return ChatColor.translateAlternateColorCodes('&', text);

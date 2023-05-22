@@ -34,7 +34,7 @@ public class PlayerHandler implements Listener {
         }
 
         Economy eco = new Economy(p);
-        if (!(eco.hasAccount(p))) { //player doesn't have an account
+        if (!eco.hasAccount(p)) { //player doesn't have an account
             eco.setBalance(plugin.getConfig().getDouble("Starting-Balance", 0.00D));
             eco.setBank(plugin.getConfig().getDouble("Starting-Bank-Balance", 0.00D));
         }

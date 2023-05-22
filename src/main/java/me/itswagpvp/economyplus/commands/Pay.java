@@ -1,8 +1,8 @@
 package me.itswagpvp.economyplus.commands;
 
 import me.itswagpvp.economyplus.misc.StorageManager;
-import me.itswagpvp.economyplus.utils.Utils;
 import me.itswagpvp.economyplus.hooks.vault.Economy;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -67,13 +67,13 @@ public class Pay implements CommandExecutor {
             money = Double.parseDouble(args[1]);
         } catch (Exception e) {
             p.sendMessage(plugin.getMessage("InvalidArgs.Pay"));
-            Utils.playErrorSound(p);
+            sound.error(p);
             return true;
         }
 
         if (Double.isNaN(money) || Double.isInfinite(money)) {
             p.sendMessage(plugin.getMessage("InvalidArgs.Pay"));
-            Utils.playErrorSound(p);
+            sound.error(p);
             return true;
         }
 
@@ -81,30 +81,29 @@ public class Pay implements CommandExecutor {
 
         if (!selfEco.detractable(money)) {
             p.sendMessage(plugin.getMessage("Pay.NoMoney"));
-            Utils.playErrorSound(p);
+            sound.error(p);
             return true;
         }
 
         Economy otherEco = new Economy(target);
 
-        Utils utilities = new Utils();
-
         selfEco.takeBalance(money);
         otherEco.addBalance(money);
 
-        Utils.playSuccessSound(p);
-        Utils.playSuccessSound(target);
+        sound.success(p);
+        sound.success(target);
 
         p.sendMessage(plugin.getMessage("Pay.Self")
-                .replaceAll("%money_formatted%", "" + utilities.fixMoney(money))
-                .replaceAll("%money%", "" + utilities.format(money))
-                .replaceAll("%player%", "" + target.getName()));
+                .replaceAll("%money_formatted%", utils.fixMoney(money))
+                .replaceAll("%money%", utils.format(money))
+                .replaceAll("%player%", target.getName()));
 
         target.sendMessage(plugin.getMessage("Pay.Target")
-                .replaceAll("%money_formatted%", "" + utilities.fixMoney(money))
-                .replaceAll("%money%", "" + utilities.format(money))
-                .replaceAll("%player%", "" + p.getName()));
+                .replaceAll("%money_formatted%", utils.fixMoney(money))
+                .replaceAll("%money%", utils.format(money))
+                .replaceAll("%player%", p.getName()));
 
         return true;
     }
+
 }
