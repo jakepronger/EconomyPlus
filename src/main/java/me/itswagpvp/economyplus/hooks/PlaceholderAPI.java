@@ -85,7 +85,7 @@ public class PlaceholderAPI extends PlaceholderExpansion {
      * @return The version as a String.
      */
     @Override
-    public  String getVersion() {
+    public String getVersion() {
         return plugin.getDescription().getVersion();
     }
 
@@ -129,6 +129,8 @@ public class PlaceholderAPI extends PlaceholderExpansion {
         }
 
         return "Invalid placeholder!";
+
     }
+
 }
 

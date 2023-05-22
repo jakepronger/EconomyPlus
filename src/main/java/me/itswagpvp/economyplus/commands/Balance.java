@@ -13,13 +13,14 @@ import org.jetbrains.annotations.NotNull;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 import static me.itswagpvp.economyplus.PlayerHandler.getName;
+import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class Balance implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 
-        if (!Utils.hasPerm(sender, "economyplus.balance", true)) {
+        if (!utils.hasPerm(sender, "economyplus.balance", true)) {
             return true;
         }
 
@@ -35,7 +36,7 @@ public class Balance implements CommandExecutor {
                         .replaceAll("%money%", "" + new Utils().format(eco.getBalance()))
                         .replaceAll("%money_formatted%", "" + new Utils().fixMoney(eco.getBalance())));
 
-                Utils.playSuccessSound(sender);
+                utils.playSuccessSound(sender);
 
                 return true;
 

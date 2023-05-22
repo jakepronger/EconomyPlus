@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import static me.itswagpvp.economyplus.Messages.getMessageConfig;
+import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class EconomyPlus extends JavaPlugin {
 
@@ -273,8 +274,8 @@ public class EconomyPlus extends JavaPlugin {
 
             Bukkit.getConsoleSender().sendMessage("§f-> §cLoading hooks:");
 
-            if (PlaceholderAPI) { Bukkit.getConsoleSender().sendMessage("   - §fPlaceholderAPI: " + placeholder); }
-            if (HolographicDisplays) { loadHolograms(); }
+            if (PlaceholderAPI) Bukkit.getConsoleSender().sendMessage("   - §fPlaceholderAPI: " + placeholder);
+            if (HolographicDisplays) loadHolograms();
 
             Bukkit.getConsoleSender().sendMessage("§f");
 
@@ -576,8 +577,8 @@ public class EconomyPlus extends JavaPlugin {
             return "";
         }
 
-        if (Utils.supportRGBColors()) {
-            String hexMessage = Utils.hexColor(rawMessage);
+        if (utils.supportRGBColors()) {
+            String hexMessage = utils.hexColor(rawMessage);
             return ChatColor.translateAlternateColorCodes('&', hexMessage);
         }
 

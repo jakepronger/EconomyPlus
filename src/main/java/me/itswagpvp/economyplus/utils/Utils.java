@@ -1,26 +1,21 @@
 package me.itswagpvp.economyplus.utils;
 
-import me.itswagpvp.economyplus.misc.StorageManager;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.database.misc.DatabaseType;
-import me.itswagpvp.economyplus.Messages;
-
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
+import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
 
 public class Utils {
 
-    public static boolean hasPerm(CommandSender sender, String permission, boolean isBasicPerm) {
+    public static Utils utils = new Utils();
+
+    public boolean hasPerm(CommandSender sender, String permission, boolean isBasicPerm) {
 
         if (isBasicPerm && !plugin.REQUIRE_BASIC_PERMISSIONS) {
             return true;
@@ -31,42 +26,12 @@ public class Utils {
         }
 
         sender.sendMessage(plugin.getMessage("NoPerms"));
-        Utils.playErrorSound(sender);
+        sound.error(sender);
 
         return false;
     }
 
-    public static void reloadPlugin(CommandSender p) {
-
-        long delay = System.currentTimeMillis();
-
-        plugin.pluginLog("[EconomyPlus] &aReloading the plugin! This action may take a while!");
-
-        try {
-
-            if (EconomyPlus.getDBType() == DatabaseType.YAML) {
-                plugin.createYMLStorage();
-            }
-
-            plugin.saveDefaultConfig();
-            plugin.reloadConfig();
-
-            new StorageManager().createStorageConfig();
-
-            Messages.load();
-
-        } catch (Exception e) {
-            p.sendMessage("§cError on reloading the plugin! (" + e.getMessage() + ")");
-        } finally {
-            p.sendMessage(plugin.getMessage("Reload")
-                    .replaceAll("%time%", "" + (System.currentTimeMillis() - delay)));
-        }
-
-        plugin.pluginLog("&aReloaded!");
-
-    }
-
-    public static String hexColor(String text) {
+    public String hexColor(String text) {
         Pattern pattern = Pattern.compile("#[a-fA-f0-9]{6}");
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()) {
@@ -76,7 +41,7 @@ public class Utils {
         return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', text);
     }
 
-    public static boolean supportRGBColors() {
+    public boolean supportRGBColors() {
         return Bukkit.getVersion().contains("16")
                 || Bukkit.getVersion().contains("17")
                 || Bukkit.getVersion().contains("18")
