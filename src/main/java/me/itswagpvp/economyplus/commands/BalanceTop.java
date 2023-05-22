@@ -6,7 +6,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import me.itswagpvp.economyplus.misc.BalTopManager;
-import me.itswagpvp.economyplus.utils.Utils;
 
 import java.util.List;
 
@@ -49,17 +48,18 @@ public class BalanceTop implements CommandExecutor {
 
 
             for (int i = start; i < balTopManager.getBalTop().size() && i < start + 10; i++) {
+
                 BalTopManager.PlayerData pData = balTopManager.getBalTop().get(i);
 
                 String name = pData.getName();
                 double money = pData.getMoney();
 
-                sender.sendMessage(plugin.getConfig().getString("Baltop.Chat.Player-Format")
+                sender.sendMessage(utils.getString("Baltop.Chat.Player-Format", "&6%number%) &f%player%: &c$%money%")
                         .replaceAll("&", "§")
                         .replaceAll("%number%", String.valueOf(i + 1))
                         .replaceAll("%player%", name)
-                        .replaceAll("%money%", "" + utils.format(money))
-                        .replaceAll("%money_formatted%", "" + utilities.fixMoney(money)));
+                        .replaceAll("%money%", utils.format(money))
+                        .replaceAll("%money_formatted%", utils.fixMoney(money)));
             }
 
             // add option for interactive arrows?

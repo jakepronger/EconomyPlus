@@ -1,6 +1,6 @@
 package me.itswagpvp.economyplus.hooks.vault;
 
-import me.itswagpvp.economyplus.PlayerHandler;
+import me.itswagpvp.economyplus.listeners.PlayerHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 

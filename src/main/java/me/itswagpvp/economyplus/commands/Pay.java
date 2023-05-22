@@ -11,6 +11,8 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
+import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
+import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class Pay implements CommandExecutor {
 
@@ -24,13 +26,13 @@ public class Pay implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (Utils.hasPerm(p, "economyplus.pay", true)) {
+        if (utils.hasPerm(p, "economyplus.pay", true)) {
             return true;
         }
 
         if (args.length != 2) {
             p.sendMessage(plugin.getMessage("InvalidArgs.Pay"));
-            Utils.playErrorSound(p);
+            sound.error(p);
             return true;
         }
 
@@ -38,25 +40,25 @@ public class Pay implements CommandExecutor {
 
         if (target == null) {
             p.sendMessage(plugin.getMessage("PlayerNotFound"));
-            Utils.playErrorSound(p);
+            sound.error(p);
             return true;
         }
 
         if (new StorageManager().getStorageConfig().getBoolean("PayToggle." + target.getName())) {
             p.sendMessage(plugin.getMessage("Pay.DisabledPayments"));
-            Utils.playErrorSound(p);
+            sound.error(p);
             return true;
         }
 
         if (target == p) {
             p.sendMessage(plugin.getMessage("Pay.NoSelf"));
-            Utils.playErrorSound(p);
+            sound.error(p);
             return true;
         }
 
         if (args[1].startsWith("-")) {
             p.sendMessage(plugin.getMessage("InvalidArgs.Pay"));
-            Utils.playErrorSound(p);
+            sound.error(p);
             return true;
         }
 

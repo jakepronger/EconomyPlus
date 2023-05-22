@@ -1,8 +1,8 @@
 package me.itswagpvp.economyplus.hooks.events;
 
-import me.itswagpvp.economyplus.PlayerHandler;
-import org.bukkit.OfflinePlayer;
+import me.itswagpvp.economyplus.listeners.PlayerHandler;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

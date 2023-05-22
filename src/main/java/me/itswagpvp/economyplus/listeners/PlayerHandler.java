@@ -1,4 +1,4 @@
-package me.itswagpvp.economyplus;
+package me.itswagpvp.economyplus.listeners;
 
 import me.itswagpvp.economyplus.misc.Updater;
 import me.itswagpvp.economyplus.hooks.vault.Economy;

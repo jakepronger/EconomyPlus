@@ -6,13 +6,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.itswagpvp.economyplus.PlayerHandler;
+import me.itswagpvp.economyplus.listeners.PlayerHandler;
 import me.itswagpvp.economyplus.utils.Utils;
 import me.itswagpvp.economyplus.hooks.vault.Economy;
 import org.jetbrains.annotations.NotNull;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
-import static me.itswagpvp.economyplus.PlayerHandler.getName;
+import static me.itswagpvp.economyplus.listeners.PlayerHandler.getName;
 import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
 

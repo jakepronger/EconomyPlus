@@ -1,6 +1,7 @@
 package me.itswagpvp.economyplus;
 
 import me.itswagpvp.economyplus.commands.Bank;
+import me.itswagpvp.economyplus.listeners.PlayerHandler;
 import me.itswagpvp.economyplus.misc.InterestsManager;
 import me.itswagpvp.economyplus.commands.*;
 import me.itswagpvp.economyplus.database.misc.DatabaseType;
@@ -35,7 +36,7 @@ public class EconomyPlus extends JavaPlugin {
 
     public static EconomyPlus plugin;
 
-    public boolean bperms = getConfig().getBoolean("Require-Basic-Permissions", true);
+    public boolean basicperms = getConfig().getBoolean("Require-Basic-Permissions", true);
     public boolean updater = getConfig().getBoolean("Updater.Plugin-Updater", true);
 
     public boolean debug; // Debug mode

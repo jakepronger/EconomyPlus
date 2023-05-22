@@ -1,6 +1,6 @@
 package me.itswagpvp.economyplus.database.mysql;
 
-import me.itswagpvp.economyplus.PlayerHandler;
+import me.itswagpvp.economyplus.listeners.PlayerHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 

@@ -5,9 +5,8 @@ import me.itswagpvp.economyplus.database.misc.DatabaseType;
 import me.itswagpvp.economyplus.database.misc.StorageMode;
 import me.itswagpvp.economyplus.database.mysql.MySQL;
 import me.itswagpvp.economyplus.database.sqlite.SQLite;
-import me.itswagpvp.economyplus.PlayerHandler;
+import me.itswagpvp.economyplus.listeners.PlayerHandler;
 
-import me.itswagpvp.economyplus.database.yaml.YMLManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;

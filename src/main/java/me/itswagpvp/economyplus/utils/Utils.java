@@ -1,6 +1,7 @@
 package me.itswagpvp.economyplus.utils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.math.RoundingMode;
@@ -17,7 +18,7 @@ public class Utils {
 
     public boolean hasPerm(CommandSender sender, String permission, boolean isBasicPerm) {
 
-        if (isBasicPerm && !plugin.bperms) {
+        if (isBasicPerm && !plugin.basicperms) {
             return false;
         }
 
@@ -32,6 +33,21 @@ public class Utils {
         return true;
     }
 
+    public void log(String text) { // send plugin message to console
+        Bukkit.getConsoleSender().sendMessage("[" + plugin.getName() + "] " + text);
+    }
+
+    public String getString(String path, String def) {
+
+        if (plugin.getConfig().getString(path) == null) {
+            log("&cError getting string using path: " + path);
+            log("&cUsing default: " + def);
+            return def;
+        }
+
+        return plugin.getConfig().getString(path);
+    }
+
     public String hexColor(String text) {
 
         Pattern pattern = Pattern.compile("#[a-fA-f0-9]{6}");
@@ -42,7 +58,7 @@ public class Utils {
             text = text.replace(color, net.md_5.bungee.api.ChatColor.of(color));
         }
 
-        return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', text);
+        return ChatColor.translateAlternateColorCodes('&', text);
     }
 
     public boolean supportRGBColors() {

@@ -8,6 +8,7 @@ import me.itswagpvp.economyplus.misc.StorageManager;
 import org.bukkit.command.CommandSender;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
+import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class Reload {
 
@@ -17,7 +18,7 @@ public class Reload {
 
         long delay = System.currentTimeMillis();
 
-        utils .log("[EconomyPlus] &aReloading the plugin! This action may take a while!");
+        utils.log("[EconomyPlus] &aReloading the plugin! This action may take a while!");
 
         try {
 
@@ -39,7 +40,7 @@ public class Reload {
                     .replaceAll("%time%", String.valueOf(System.currentTimeMillis() - delay)));
         }
 
-        plugin.pluginLog("&aReloaded!");
+        utils.log("&aReloaded!");
 
     }
 
