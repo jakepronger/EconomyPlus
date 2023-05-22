@@ -11,7 +11,6 @@ import me.itswagpvp.economyplus.hooks.PlaceholderAPI;
 import me.itswagpvp.economyplus.hooks.holograms.HolographicDisplays;
 import me.itswagpvp.economyplus.metrics.bStats;
 import me.itswagpvp.economyplus.misc.*;
-import me.itswagpvp.economyplus.utils.Utils;
 import me.itswagpvp.economyplus.vault.VEconomy;
 
 import org.bukkit.Bukkit;
@@ -34,34 +33,21 @@ import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class EconomyPlus extends JavaPlugin {
 
-    public boolean REQUIRE_BASIC_PERMISSIONS = getConfig().getBoolean("Require-Basic-Permissions", true);
+    public static EconomyPlus plugin;
 
-    public boolean PLUGIN_UPDATER = getConfig().getBoolean("Updater.Plugin-Updater", true);
-    public boolean SAVE_NAMES = getConfig().getBoolean("Save-Usernames", true);
-    public boolean SET_INVALID = getConfig().getBoolean("Set-Invalid", false);
-    public static double PLUGIN_VERSION;
-    public static double CONFIG_VERSION;
+    public boolean bperms = getConfig().getBoolean("Require-Basic-Permissions", true);
+    public boolean updater = getConfig().getBoolean("Updater.Plugin-Updater", true);
 
-    public static EconomyPlus plugin; // Plugin instance
+    public boolean debug; // Debug mode
 
-    public static String lang = "EN"; // Language
+    private DatabaseType dbType = DatabaseType.UNDEFINED; // Database
 
-    public boolean purgeInvalid = getConfig().getBoolean("Purge-Invalid", false);
+    private StorageMode storage = StorageMode.UNDEFINED; // Storage Type (UUID,Nickname)
 
-    public static boolean debugMode; // Debug mode
-
-    public static FileConfiguration ymlConfig;
-
-    private static DatabaseType dbType = DatabaseType.UNDEFINED; // Database
-
-    private static StorageMode storageMode = StorageMode.UNDEFINED; // Storage Type (UUID,Nickname)
-
-    public static boolean bankEnabled = false;
+    public boolean bank = false;
 
 
-    String vault = ""; // Vault message
-
-    private File ymlFile;
+    // String vault; // Vault message
 
     // Returns the DatabaseType (MYSQL/H2/YAML/Undefined)
     public static DatabaseType getDBType() {
@@ -69,8 +55,8 @@ public class EconomyPlus extends JavaPlugin {
     }
 
     // Returns the StorageMode (NICKNAME/UUID)
-    public static StorageMode getStorageMode() {
-        return storageMode;
+    public StorageMode getStorageMode() {
+        return getConfig().get("Database.Mode", StorageMode.UUID);
     }
 
     // Made for /ep convert
@@ -80,12 +66,6 @@ public class EconomyPlus extends JavaPlugin {
         saveConfig();
     }
 
-    //Logger
-    public void pluginLog(String value) {
-        Bukkit.getConsoleSender().sendMessage("[EconomyPlus] " + ChatColor.translateAlternateColorCodes('&', value));
-    }
-
-    private static String configUpdate = null;
     public void loadDefaultConfig() {
 
         File file = new File(plugin.getDataFolder(), "config.yml");
