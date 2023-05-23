@@ -62,16 +62,16 @@ public class Balance implements CommandExecutor {
             Economy eco = new Economy(p);
 
             if (sender == p) { // player mentioned is the sender
-                sender.sendMessage(plugin.getMessage("Balance.Self")
-                        .replaceAll("%money%", "" + new Utils().format(eco.getBalance()))
-                        .replaceAll("%money_formatted%", "" + new Utils().fixMoney(eco.getBalance())));
+                sender.sendMessage(plugin.getMessage("balance.self")
+                        .replaceAll("%money%", utils.format(eco.getBalance()))
+                        .replaceAll("%money_formatted%", utils.fixMoney(eco.getBalance())));
             }
 
             else {
-                sender.sendMessage(plugin.getMessage("Balance.Others")
-                        .replaceAll("%money%", "" + new Utils().format(eco.getBalance()))
-                        .replaceAll("%money_formatted%", "" + new Utils().fixMoney(eco.getBalance()))
-                        .replaceAll("%player%", "" + name));
+                sender.sendMessage(plugin.getMessage("balance.others")
+                        .replaceAll("%money%", utils.format(eco.getBalance()))
+                        .replaceAll("%money_formatted%", utils.fixMoney(eco.getBalance()))
+                        .replaceAll("%player%", name));
             }
 
             sounds.success(sender);

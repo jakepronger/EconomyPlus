@@ -28,11 +28,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
 
-import static me.itswagpvp.economyplus.config.ConfigManager.configManager;
+import static me.itswagpvp.economyplus.managers.ConfigManager.configManager;
 import static me.itswagpvp.economyplus.utils.Config.config;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
 
@@ -45,144 +42,25 @@ public class EconomyPlus extends JavaPlugin {
     public boolean debug;
     public boolean bank;
 
-    private DatabaseType dbType = DatabaseType.UNDEFINED; // Database
-
-
-    // String vault; // Vault message
-
-    // Returns the DatabaseType (MYSQL/H2/YAML/Undefined)
-    public static DatabaseType getDBType() {
-        return dbType;
-    }
-
-    // Returns the StorageMode (NICKNAME/UUID)
-    public StorageMode getStorageMode() {
-        return getConfig().get("Database.Mode", StorageMode.UUID);
-    }
-
-    // Made for /ep convert
-    public void setStorageMode(String newStorageMode) {
-        storageMode = StorageMode.valueOf(newStorageMode);
-        getConfig().set("Database.Mode", newStorageMode);
-        saveConfig();
-    }
-
-    public void loadDefaultConfig() {
-
-        // file doesn't exist so create new config & return
-        saveDefaultConfig();
-
-        // Config version is same as plugin version OR config updater is disabled
-        double version = CONFIG_VERSION;
-        if (CONFIG_VERSION == PLUGIN_VERSION || !getConfig().getBoolean("Updater.Config-Updater")) {
-            saveDefaultConfig();
-            return;
-        }
-
-        // save configuration file to folder configs
-        try {
-            config.save(new File(plugin.getDataFolder() + File.separator + "configs" + File.separator + CONFIG_VERSION + ".yml"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // save config values
-        Map<String, Object> old = new HashMap<>();
-        for (String value : config.getConfigurationSection("").getKeys(true)) {
-            if (!value.equalsIgnoreCase("Version")) {
-                if (getConfig().getConfigurationSection(value) == null) {
-                    old.put(value, getConfig().get(value));
-                }
-            }
-        }
-
-        saveDefaultConfig();
-        reloadConfig();
-
-        // update new config
-        int total = old.size();
-        for (String value : getConfig().getConfigurationSection("").getKeys(true)) {
-            if (old.get(value) != null) {
-                if (!value.equalsIgnoreCase("Version")) { // value is not version
-                    getConfig().set(value, old.get(value)); // set value to new config
-                    old.remove(value); // remove from map
-                }
-            }
-        }
-
-        //
-        saveConfig();
-        reloadConfig();
-        //
-
-        // get if there are any new config options
-        Map<Object, Object> newoptions = new HashMap<>();
-        for (String value : getConfig().getConfigurationSection("").getKeys(true)) {
-            if (getConfig().getConfigurationSection(value) == null) {
-                if (config.get(value) == null) {
-                    newoptions.put(value, getConfig().get(value));
-                }
-            }
-        }
-
-        // messaging
-
-        int failed = old.size();
-        String converted = (total - old.size()) + "/" + total;
-
-        CONFIG_VERSION = getConfig().getDouble("Version", PLUGIN_VERSION);
-        if (version > PLUGIN_VERSION) {
-            configUpdate = "§f-> §aYour config.yml was updated.\n   - §fVersion: §a" + CONFIG_VERSION + " §f<- §e" + version;
-        } else if (version < PLUGIN_VERSION) {
-            configUpdate = "§f-> §aYour config.yml was updated.\n   - §fVersion: §e" + version + " §f-> §a" + CONFIG_VERSION;
-        } else if (version == PLUGIN_VERSION) {
-            configUpdate = "§f-> §aYour config.yml was verified.\n   - §fVersion: §a" + CONFIG_VERSION;
-        }
-
-        if (failed == 0) {
-            configUpdate = configUpdate + "\n   - §fConverted: §a" + converted;
-        } else {
-            configUpdate = configUpdate + "\n   - §fConverted: §c" + converted + "\n   - §fRemoved-Options: §c[" + failed + "]";
-            for (Map.Entry<String, Object> value : old.entrySet()) {
-                configUpdate = configUpdate + "\n     - §f" + value.getKey() + ": §c" + value.getValue();
-            }
-        }
-
-        if (!newoptions.isEmpty()) {
-            configUpdate = configUpdate + "\n   - §fNew-Options: §a[" + newoptions.size() + "]";
-            for (Map.Entry<Object, Object> value : newoptions.entrySet()) {
-                if (value.getValue().toString().equalsIgnoreCase("true")) {
-                    configUpdate = configUpdate + "\n     - §f" + value.getKey() + ": §a" + value.getValue();
-                } else if (value.getValue().toString().equalsIgnoreCase("false")) {
-                    configUpdate = configUpdate + "\n     - §f" + value.getKey() + ": §c" + value.getValue();
-                } else {
-                    configUpdate = configUpdate + "\n     - §f" + value.getKey() + ": §e" + value.getValue();
-                }
-            }
-        }
-
-        configUpdate = configUpdate + "\n   - §bConfiguration was saved.";
-
-
-    }
-
-    public void onLoad() { // Plugin startup logic
+    @Override
+    public void onEnable() {
 
         plugin = this;
 
-        purgeInvalid = getConfig().getBoolean("Purge-Invalid", false);
+        long delay = System.currentTimeMillis();
+
+        configManager.load(); // sets up the config file
+
+        // initialize plugin vars
+        basicperms = config.getBoolean("require-basic-permissions", true);
+        updater = config.getBoolean("updater.use", true);
+        debug = config.getBoolean("debug", false);
+        bank = config.getBoolean("bank.use", true);
+
+        //
 
         PLUGIN_VERSION = Double.parseDouble(getDescription().getVersion());
         CONFIG_VERSION = getConfig().getDouble("Version", PLUGIN_VERSION);
-
-        loadDefaultConfig();
-
-        if (getConfig().getBoolean("Debug-Mode", false)) {
-            debugMode = true;
-            getLogger().setLevel(Level.FINEST);
-        }
-
-        getConfig().options().copyDefaults(true);
 
         new StorageManager().createStorageConfig();
 
@@ -201,36 +79,23 @@ public class EconomyPlus extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
         }
 
-    }
-
-    @Override
-    public void onEnable() {
-
-        long delay = System.currentTimeMillis();
-
-        configManager.load(); // sets up the config file
-
-        // initialize plugin vars
-        basicperms = config.getBoolean("require-basic-permissions", true);
-        updater = config.getBoolean("updater.use", true);
-        debug = config.getBoolean("debug", false);
-        bank = config.getBoolean("bank.use", true);
+        //
 
         loadPlaceholderAPI();
 
-        Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-        Bukkit.getConsoleSender().sendMessage("             §dEconomy§5Plus");
-        Bukkit.getConsoleSender().sendMessage("             §aEnabled §d" + PLUGIN_VERSION);
-        Bukkit.getConsoleSender().sendMessage("§8");
-        Bukkit.getConsoleSender().sendMessage("§f-> §cLoading core:");
-        Bukkit.getConsoleSender().sendMessage("   - §fStorage-Mode: §a" + storageMode.toString());
-        Bukkit.getConsoleSender().sendMessage("   - §fDatabase: §bLoaded (" + dbType.toString().replace("H2", "SQLite") + ")");
+        utils.log("§8+------------------------------------+");
+        utils.log("             §dEconomy§5Plus");
+        utils.log("             §aEnabled §d" + PLUGIN_VERSION);
+        utils.log("§8");
+        utils.log("§f-> §cLoading core:");
+        utils.log("   - §fStorage-Mode: §a" + storageMode.toString());
+        utils.log("   - §fDatabase: §bLoaded (" + dbType.toString().replace("H2", "SQLite") + ")");
 
         enableDatabase();
 
-        Bukkit.getConsoleSender().sendMessage("   - §fVault: " + vault);
+        utils.log("   - §fVault: " + vault);
 
-        loadCommands();
+        registerCommands();
 
         loadMessages();
 
@@ -455,8 +320,10 @@ public class EconomyPlus extends JavaPlugin {
         try {
             new bStats(this, 11565);
         } catch (Exception e) {
-            Bukkit.getConsoleSender().sendMessage("   - §cError loading bStats");
-            Bukkit.getConsoleSender().sendMessage(e.getMessage());
+            utils.log("   - §cError loading bStats: " + e.getMessage());
+            if (debug) {
+                e.printStackTrace();
+            }
         }
     }
 

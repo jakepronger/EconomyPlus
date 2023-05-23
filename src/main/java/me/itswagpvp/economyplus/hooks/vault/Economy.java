@@ -1,12 +1,12 @@
 package me.itswagpvp.economyplus.hooks.vault;
 
+import me.itswagpvp.economyplus.hooks.events.BankChangeEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import me.itswagpvp.economyplus.EconomyPlus;
 import me.itswagpvp.economyplus.database.misc.Selector;
-import me.itswagpvp.economyplus.hooks.events.PlayerBalanceChangeEvent;
-import me.itswagpvp.economyplus.hooks.events.PlayerBankChangeEvent;
+import me.itswagpvp.economyplus.hooks.events.BalanceChangeEvent;
 
 public class Economy extends VEconomy {
 
@@ -25,7 +25,7 @@ public class Economy extends VEconomy {
     // Set the money of a player
     public void setBalance(Double money) {
 
-        PlayerBalanceChangeEvent event = new PlayerBalanceChangeEvent(Selector.playerToString(player), money);
+        BalanceChangeEvent event = new BalanceChangeEvent(Selector.playerToString(player), money);
         Bukkit.getPluginManager().callEvent(event);
 
         if (event.isCancelled()) return;
@@ -36,7 +36,7 @@ public class Economy extends VEconomy {
     // Add moneys to a player account
     public void addBalance(Double money) {
 
-        PlayerBalanceChangeEvent event = new PlayerBalanceChangeEvent(Selector.playerToString(player), getBalance() + money);
+        BalanceChangeEvent event = new BalanceChangeEvent(Selector.playerToString(player), getBalance() + money);
         Bukkit.getPluginManager().callEvent(event);
 
         if (event.isCancelled()) return;
@@ -46,7 +46,7 @@ public class Economy extends VEconomy {
     // Remove moneys from a player's account
     public void takeBalance(Double money) {
 
-        PlayerBalanceChangeEvent event = new PlayerBalanceChangeEvent(Selector.playerToString(player), getBalance() - money);
+        BalanceChangeEvent event = new BalanceChangeEvent(Selector.playerToString(player), getBalance() - money);
         Bukkit.getPluginManager().callEvent(event);
 
         if (event.isCancelled()) return;
@@ -61,7 +61,7 @@ public class Economy extends VEconomy {
     // Set player's bank to the constructor value
     public void setBank(Double money) {
 
-        PlayerBankChangeEvent event = new PlayerBankChangeEvent(Selector.playerToString(player), money);
+        BankChangeEvent event = new BankChangeEvent(Selector.playerToString(player), money);
         Bukkit.getPluginManager().callEvent(event);
 
         if (event.isCancelled()) return;

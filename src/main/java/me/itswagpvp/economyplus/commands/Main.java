@@ -13,17 +13,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 import static me.itswagpvp.economyplus.utils.Reload.reload;
-import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
+import static me.itswagpvp.economyplus.utils.Sounds.sounds;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class Main implements CommandExecutor {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         if (args.length == 0) {
             sender.sendMessage("§d§lEconomy§5§lPlus §7v" + plugin.getDescription().getVersion() + " made by §d_ItsWagPvP");
@@ -35,12 +34,12 @@ public class Main implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("reload")) {
 
-                if (utils.hasPerm(sender, "economyplus.reload", false)) {
+                if (utils.noPerm(sender, "economyplus.reload", false)) {
                     return true;
                 }
 
                 reload.execute(sender);
-                sound.success(sender);
+                sounds.success(sender);
 
                 return true;
             }
@@ -53,7 +52,7 @@ public class Main implements CommandExecutor {
                         sender.sendMessage(plugin.getMessage("NoPlayer"));
                     }
 
-                    sound.error(sender);
+                    sounds.error(sender);
 
                     return true;
                 }
@@ -98,7 +97,7 @@ public class Main implements CommandExecutor {
 
                 Player p = (Player) sender;
 
-                if (utils.hasPerm(p, "economyplus.hologram", false)) {
+                if (utils.noPerm(p, "economyplus.hologram", false)) {
                     return true;
                 }
 
@@ -126,7 +125,7 @@ public class Main implements CommandExecutor {
 
             else if (args[0].equalsIgnoreCase("update")) {
 
-                if (utils.hasPerm(sender, "economyplus.update", false)) {
+                if (utils.noPerm(sender, "economyplus.update", false)) {
                     return true;
                 }
 
@@ -145,7 +144,7 @@ public class Main implements CommandExecutor {
                 if (sender instanceof Player) {
                     if (plugin.isMessageEnabled("NoPlayer")) {
                         sender.sendMessage(plugin.getMessage("NoPlayer"));
-                        sound.error(sender);
+                        sounds.error(sender);
                     }
                     return true;
                 }
@@ -185,7 +184,7 @@ public class Main implements CommandExecutor {
                 if (!(sender instanceof ConsoleCommandSender)) {
                     if (plugin.isMessageEnabled("NoPlayer")) {
                         sender.sendMessage(plugin.getMessage("NoPlayer"));
-                        sound.error(sender);
+                        sounds.error(sender);
                     }
                     return true;
                 }
@@ -207,7 +206,7 @@ public class Main implements CommandExecutor {
         }
 
         sender.sendMessage(plugin.getMessage("InvalidArgs.Main"));
-        sound.error(sender);
+        sounds.error(sender);
 
         return true;
 

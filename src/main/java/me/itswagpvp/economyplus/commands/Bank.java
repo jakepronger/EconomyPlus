@@ -11,7 +11,7 @@ import me.itswagpvp.economyplus.utils.Utils;
 import me.itswagpvp.economyplus.hooks.vault.Economy;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
-import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
+import static me.itswagpvp.economyplus.utils.Sounds.sounds;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class Bank implements CommandExecutor {
@@ -21,7 +21,7 @@ public class Bank implements CommandExecutor {
 
         if (!plugin.bank) {
             sender.sendMessage(plugin.getMessage("Bank.Disabled"));
-            sound.error(sender);
+            sounds.error(sender);
             return true;
         }
 
@@ -34,7 +34,7 @@ public class Bank implements CommandExecutor {
 
         if (args.length == 0) {
 
-            if (utils.hasPerm(p, "economyplus.bank.view", true)) {
+            if (utils.noPerm(p, "economyplus.bank.view", true)) {
                 return true;
             }
 
@@ -44,7 +44,7 @@ public class Bank implements CommandExecutor {
                     .replaceAll("%money_formatted%", "" + utils.fixMoney(bank))
                     .replaceAll("%money%", "" + utils.format(bank)));
 
-            sound.success(sender);
+            sounds.success(sender);
 
             return true;
         }
@@ -57,7 +57,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("withdraw")) {
 
-                if (utils.hasPerm(p, "economyplus.bank.withdraw", true)) {
+                if (utils.noPerm(p, "economyplus.bank.withdraw", true)) {
                     return true;
                 }
 
@@ -68,7 +68,7 @@ public class Bank implements CommandExecutor {
 
                 if (amount > bank) {
                     p.sendMessage(plugin.getMessage("Bank.NoMoney"));
-                    sound.error(p);
+                    sounds.error(p);
                     return true;
                 }
 
@@ -82,13 +82,13 @@ public class Bank implements CommandExecutor {
 
                 p.sendMessage(plugin.getMessage("Bank.Withdraw").replaceAll("%money%", "" + amount));
 
-                sound.success(p);
+                sounds.success(p);
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("deposit")) {
 
-                if (utils.hasPerm(p, "economyplus.bank.deposit", true)) {
+                if (utils.noPerm(p, "economyplus.bank.deposit", true)) {
                     return true;
                 }
 
@@ -99,7 +99,7 @@ public class Bank implements CommandExecutor {
 
                 if ((balance - amount) < 0) {
                     p.sendMessage(plugin.getMessage("Pay.NoMoney"));
-                    sound.error(p);
+                    sounds.error(p);
                     return true;
                 }
 
@@ -127,7 +127,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("admin")) {
 
-                if (utils.hasPerm(p, "economyplus.bank.admin", false)) {
+                if (utils.noPerm(p, "economyplus.bank.admin", false)) {
                     return true;
                 }
 
@@ -135,7 +135,7 @@ public class Bank implements CommandExecutor {
 
                 if (target == null) {
                     p.sendMessage(plugin.getMessage("PlayerNotFound"));
-                    sound.error(p);
+                    sounds.error(p);
                     return true;
                 }
 
@@ -148,13 +148,13 @@ public class Bank implements CommandExecutor {
                             .replaceAll("%money_formatted%", utils.fixMoney(bank))
                             .replaceAll("%money%", utils.format(bank)));
 
-                    sound.success(p);
+                    sounds.success(p);
                     return true;
                 }
 
                 if (args[1].equalsIgnoreCase("set")) {
                     p.sendMessage(plugin.getMessage("InvalidArgs.Bank"));
-                    sound.error(p);
+                    sounds.error(p);
                     return true;
                 }
 
@@ -166,7 +166,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("admin")) {
 
-                if (utils.hasPerm(p, "economyplus.bank.admin", false)) {
+                if (utils.noPerm(p, "economyplus.bank.admin", false)) {
                     return true;
                 }
 
@@ -178,7 +178,7 @@ public class Bank implements CommandExecutor {
 
                     if (target == null) {
                         p.sendMessage(plugin.getMessage("PlayerNotFound"));
-                        sound.error(p);
+                        sounds.error(p);
                         return true;
                     }
 
@@ -187,7 +187,7 @@ public class Bank implements CommandExecutor {
                         bank = Double.parseDouble(args[3]);
                     } catch (Exception e) {
                         p.sendMessage(plugin.getMessage("InvalidArgs.Bank"));
-                        sound.error(p);
+                        sounds.error(p);
                         return true;
                     }
 
@@ -202,21 +202,21 @@ public class Bank implements CommandExecutor {
                             .replaceAll("%money_formatted%", "" + utils.fixMoney(bank))
                             .replaceAll("%money%", "" + utils.format(bank)));
 
-                    sound.success(p);
-                    sound.error(target);
+                    sounds.success(p);
+                    sounds.error(target);
 
                     return true;
                 }
 
                 p.sendMessage(plugin.getMessage("InvalidArgs.Bank"));
-                sound.error(p);
+                sounds.error(p);
                 return true;
 
             }
         }
 
         p.sendMessage(plugin.getMessage("InvalidArgs.Bank"));
-        sound.error(p);
+        sounds.error(p);
 
         return true;
 

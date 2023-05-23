@@ -10,6 +10,7 @@ import me.itswagpvp.economyplus.misc.BalTopManager;
 import java.util.List;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
+import static me.itswagpvp.economyplus.utils.Config.config;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class BalanceTop implements CommandExecutor {
@@ -17,7 +18,7 @@ public class BalanceTop implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (utils.hasPerm(sender, "economyplus.baltop", true)) {
+        if (utils.noPerm(sender, "economyplus.baltop", true)) {
             return true;
         }
 
@@ -54,7 +55,7 @@ public class BalanceTop implements CommandExecutor {
                 String name = pData.getName();
                 double money = pData.getMoney();
 
-                sender.sendMessage(utils.getString("Baltop.Chat.Player-Format", "&6%number%) &f%player%: &c$%money%")
+                sender.sendMessage(config.getString("Baltop.Chat.Player-Format", "&6%number%) &f%player%: &c$%money%")
                         .replaceAll("&", "§")
                         .replaceAll("%number%", String.valueOf(i + 1))
                         .replaceAll("%player%", name)

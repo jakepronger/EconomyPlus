@@ -34,8 +34,15 @@ public class Utils {
 
     }
 
-    public void log(String text) { // send plugin message to console
-        Bukkit.getConsoleSender().sendMessage("[" + plugin.getName() + "] " + ChatColor.translateAlternateColorCodes('&', text));
+    public void log(String message) { // send plugin message to console
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[" + plugin.getName() + "] " + message));
+    }
+
+    public void logError(String message, Exception exception) { // send plugin message to console
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&c[" + plugin.getName() + "] " + message));
+        if (plugin.debug) {
+            exception.printStackTrace();
+        }
     }
 
     public String hexColor(String text) {

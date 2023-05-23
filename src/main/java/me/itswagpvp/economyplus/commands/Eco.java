@@ -3,6 +3,7 @@ package me.itswagpvp.economyplus.commands;
 import me.itswagpvp.economyplus.EconomyPlus;
 import me.itswagpvp.economyplus.database.misc.StorageMode;
 import me.itswagpvp.economyplus.listeners.PlayerHandler;
+import me.itswagpvp.economyplus.hooks.vault.Economy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,27 +11,23 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import me.itswagpvp.economyplus.utils.Utils;
-import me.itswagpvp.economyplus.hooks.vault.Economy;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
-import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
+import static me.itswagpvp.economyplus.utils.Sounds.sounds;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
-import static org.bukkit.Bukkit.getPlayer;
 
 public class Eco implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (utils.hasPerm(sender, "economyplus.eco.reset", false)
-                || utils.hasPerm(sender, "economyplus.eco.give", false)
-                || utils.hasPerm(sender, "economyplus.eco.take", false)
-                || utils.hasPerm(sender, "economyplus.eco.set", false))
+        if (utils.noPerm(sender, "economyplus.eco.reset", false)
+                || utils.noPerm(sender, "economyplus.eco.give", false)
+                || utils.noPerm(sender, "economyplus.eco.take", false)
+                || utils.noPerm(sender, "economyplus.eco.set", false))
             return true;
 
         if (args.length == 2) {
@@ -59,7 +56,7 @@ public class Eco implements CommandExecutor {
 
                     } else {
                         sender.sendMessage(ChatColor.RED + "Resetting everyone's balance is disabled!");
-                        sound.error(sender);
+                        sounds.error(sender);
                         return true;
                     }
 
@@ -78,7 +75,7 @@ public class Eco implements CommandExecutor {
                         sender.sendMessage(ChatColor.GREEN + "You have just refreshed everyone's balances!");
                     }
 
-                    sound.success(sender);
+                    sounds.success(sender);
 
                 } else {
 
@@ -86,7 +83,7 @@ public class Eco implements CommandExecutor {
 
                     if (args[0].equalsIgnoreCase("@a") || args[0].equalsIgnoreCase("*")) {
                         sender.sendMessage(ChatColor.RED + "You cannot use * or @a as a name!");
-                        sound.error(sender);
+                        sounds.error(sender);
                         return true;
                     }
 
@@ -94,11 +91,11 @@ public class Eco implements CommandExecutor {
 
                     if (p == null || (!p.hasPlayedBefore() && !p.isOnline())) {
                         sender.sendMessage(plugin.getMessage("PlayerNotFound"));
-                        sound.error(sender);
+                        sounds.error(sender);
                         return true;
                     }
 
-                    if (utils.hasPerm(sender, "economyplus.eco.reset", false)) {
+                    if (utils.noPerm(sender, "economyplus.eco.reset", false)) {
                         return true;
                     } else {
 
@@ -113,7 +110,7 @@ public class Eco implements CommandExecutor {
                             p.getPlayer().sendMessage(plugin.getMessage("Money.Reset"));
                         }
 
-                        sound.success(sender);
+                        sounds.success(sender);
 
                     }
 
@@ -127,13 +124,13 @@ public class Eco implements CommandExecutor {
 
             if (!args[1].equalsIgnoreCase("set") & !args[1].equalsIgnoreCase("give") & !args[1].equalsIgnoreCase("take")) {
                 sender.sendMessage(plugin.getMessage("InvalidArgs.Eco"));
-                sound.error(sender);
+                sounds.error(sender);
                 return true;
             }
 
             if (args[0].equalsIgnoreCase("@a") || args[0].equalsIgnoreCase("*")) {
                 sender.sendMessage(ChatColor.RED + "You cannot use * or @a as a name!");
-                sound.error(sender);
+                sounds.error(sender);
                 return true;
             }
 
@@ -141,7 +138,7 @@ public class Eco implements CommandExecutor {
 
             if (p == null || (!p.hasPlayedBefore() && !p.isOnline())) {
                 sender.sendMessage(plugin.getMessage("PlayerNotFound"));
-                sound.success(sender);
+                sounds.success(sender);
                 return true;
             }
 
@@ -159,7 +156,7 @@ public class Eco implements CommandExecutor {
 
             if (args[1].equalsIgnoreCase("set")) {
 
-                if (utils.hasPerm(sender, "economyplus.eco.set", false)) {
+                if (utils.noPerm(sender, "economyplus.eco.set", false)) {
                     return true;
                 }
 
@@ -175,17 +172,17 @@ public class Eco implements CommandExecutor {
                                 .replaceAll("%money_formatted%", utils.fixMoney(value))
                                 .replaceAll("%money%", utils.format(value)));
 
-                        sound.success(p.getPlayer());
+                        sounds.success(p.getPlayer());
                     }
                 }
 
-                sound.success(sender);
+                sounds.success(sender);
 
                 return true;
 
             } else if (args[1].equalsIgnoreCase("take")) {
 
-                if (utils.hasPerm(sender, "economyplus.eco.take", false)) {
+                if (utils.noPerm(sender, "economyplus.eco.take", false)) {
                     return true;
                 }
 
@@ -207,17 +204,17 @@ public class Eco implements CommandExecutor {
                         p.getPlayer().sendMessage(plugin.getMessage("Money.Refreshed")
                                 .replaceAll("%money%", utils.format(res))
                                 .replaceAll("%money_formatted%", utils.fixMoney(res)));
-                        sound.success(p.getPlayer());
+                        sounds.success(p.getPlayer());
                     }
                 }
 
-                sound.success(sender);
+                sounds.success(sender);
 
                 return true;
 
             } else if (args[1].equalsIgnoreCase("give")) {
 
-                if (utils.hasPerm(sender, "economyplus.eco.give", false)) {
+                if (utils.noPerm(sender, "economyplus.eco.give", false)) {
                     return true;
                 }
 
@@ -232,11 +229,11 @@ public class Eco implements CommandExecutor {
                         p.getPlayer().sendMessage(plugin.getMessage("Money.Refreshed")
                                 .replaceAll("%money_formatted%", utils.fixMoney(money.getBalance()))
                                 .replaceAll("%money%", utils.format(money.getBalance())));
-                        sound.success(p.getPlayer());
+                        sounds.success(p.getPlayer());
                     }
                 }
 
-                sound.success(sender);
+                sounds.success(sender);
                 return true;
             }
 
@@ -244,7 +241,7 @@ public class Eco implements CommandExecutor {
 
         // usage
         sender.sendMessage(plugin.getMessage("InvalidArgs.Eco"));
-        sound.error(sender);
+        sounds.error(sender);
         return true;
     }
 

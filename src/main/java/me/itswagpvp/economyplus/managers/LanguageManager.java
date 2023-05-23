@@ -1,4 +1,4 @@
-package me.itswagpvp.economyplus.config;
+package me.itswagpvp.economyplus.managers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,10 +16,11 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
+import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class LanguageManager {
 
-    public static LanguageManager languages = new LanguageManager();
+    public static LanguageManager languageManager = new LanguageManager();
 
     private final String path = plugin.getDataFolder() + "/messages";
 
@@ -39,18 +40,18 @@ public class LanguageManager {
 
     }
 
-    public FileConfiguration getMessageConfig(String name) {
+    public FileConfiguration getConfig(String language) {
 
-        File file = new File(path, name + ".yml");
+        File file = new File(path, language + ".yml");
 
         if (file.exists()) {
-            return YamlConfiguration.loadConfiguration(new File(path, name + ".yml"));
+            return YamlConfiguration.loadConfiguration(new File(path, language + ".yml"));
         }
 
         return null;
     }
 
-    public List<String> getLanguages() { // returns a list of file names that don't contain a / in the path
+    private List<String> getLanguages() { // returns a list of file names that don't contain a / in the path
 
         // loop through all files in recourses folder
 
@@ -86,7 +87,7 @@ public class LanguageManager {
 
         } catch (IOException ex) {
             ex.printStackTrace();
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[EconomyPlus] Error loading languages!");
+            utils.log("&cError loading languages!");
         } catch (URISyntaxException e) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[EconomyPlus] Error loading languages!");
             throw new RuntimeException(e);

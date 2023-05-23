@@ -11,7 +11,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
-import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
+import static me.itswagpvp.economyplus.utils.Sounds.sounds;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class Pay implements CommandExecutor {
@@ -26,13 +26,13 @@ public class Pay implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (utils.hasPerm(p, "economyplus.pay", true)) {
+        if (utils.noPerm(p, "economyplus.pay", true)) {
             return true;
         }
 
         if (args.length != 2) {
             p.sendMessage(plugin.getMessage("InvalidArgs.Pay"));
-            sound.error(p);
+            sounds.error(p);
             return true;
         }
 
@@ -40,25 +40,25 @@ public class Pay implements CommandExecutor {
 
         if (target == null) {
             p.sendMessage(plugin.getMessage("PlayerNotFound"));
-            sound.error(p);
+            sounds.error(p);
             return true;
         }
 
         if (new StorageManager().getStorageConfig().getBoolean("PayToggle." + target.getName())) {
             p.sendMessage(plugin.getMessage("Pay.DisabledPayments"));
-            sound.error(p);
+            sounds.error(p);
             return true;
         }
 
         if (target == p) {
             p.sendMessage(plugin.getMessage("Pay.NoSelf"));
-            sound.error(p);
+            sounds.error(p);
             return true;
         }
 
         if (args[1].startsWith("-")) {
             p.sendMessage(plugin.getMessage("InvalidArgs.Pay"));
-            sound.error(p);
+            sounds.error(p);
             return true;
         }
 
@@ -67,13 +67,13 @@ public class Pay implements CommandExecutor {
             money = Double.parseDouble(args[1]);
         } catch (Exception e) {
             p.sendMessage(plugin.getMessage("InvalidArgs.Pay"));
-            sound.error(p);
+            sounds.error(p);
             return true;
         }
 
         if (Double.isNaN(money) || Double.isInfinite(money)) {
             p.sendMessage(plugin.getMessage("InvalidArgs.Pay"));
-            sound.error(p);
+            sounds.error(p);
             return true;
         }
 
@@ -81,7 +81,7 @@ public class Pay implements CommandExecutor {
 
         if (!selfEco.detractable(money)) {
             p.sendMessage(plugin.getMessage("Pay.NoMoney"));
-            sound.error(p);
+            sounds.error(p);
             return true;
         }
 
@@ -90,8 +90,8 @@ public class Pay implements CommandExecutor {
         selfEco.takeBalance(money);
         otherEco.addBalance(money);
 
-        sound.success(p);
-        sound.success(target);
+        sounds.success(p);
+        sounds.success(target);
 
         p.sendMessage(plugin.getMessage("Pay.Self")
                 .replaceAll("%money_formatted%", utils.fixMoney(money))

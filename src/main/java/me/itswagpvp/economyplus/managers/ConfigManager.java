@@ -1,6 +1,4 @@
-package me.itswagpvp.economyplus.config;
-
-import org.bukkit.configuration.file.FileConfiguration;
+package me.itswagpvp.economyplus.managers;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 

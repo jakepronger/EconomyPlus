@@ -8,7 +8,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class PlayerBalanceChangeEvent extends Event implements Cancellable {
+public class BalanceChangeEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
@@ -18,7 +18,7 @@ public class PlayerBalanceChangeEvent extends Event implements Cancellable {
     private final double newBalance;
     private final double oldBalance;
 
-    public PlayerBalanceChangeEvent(String player, double newBalance) {
+    public BalanceChangeEvent(String player, double newBalance) {
         this.player = player;
         this.oldBalance = new Economy(PlayerHandler.getPlayer(player)).getBalance();
         this.newBalance = newBalance;

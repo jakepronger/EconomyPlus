@@ -7,7 +7,7 @@ import me.itswagpvp.economyplus.misc.StorageManager;
 import org.bukkit.command.CommandSender;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
-import static me.itswagpvp.economyplus.config.ConfigManager.configManager;
+import static me.itswagpvp.economyplus.managers.ConfigManager.configManager;
 import static me.itswagpvp.economyplus.utils.Config.config;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
 
