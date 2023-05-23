@@ -12,7 +12,7 @@ import me.itswagpvp.economyplus.hooks.vault.Economy;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 import static me.itswagpvp.economyplus.listeners.PlayerHandler.getName;
-import static me.itswagpvp.economyplus.utils.SoundUtils.sound;
+import static me.itswagpvp.economyplus.utils.Sounds.sounds;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class Balance implements CommandExecutor {
@@ -20,7 +20,7 @@ public class Balance implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (utils.hasPerm(sender, "economyplus.balance", true)) {
+        if (utils.noPerm(sender, "economyplus.balance", true)) {
             return true;
         }
 
@@ -36,7 +36,7 @@ public class Balance implements CommandExecutor {
                         .replaceAll("%money%", new Utils().format(eco.getBalance()))
                         .replaceAll("%money_formatted%", new Utils().fixMoney(eco.getBalance())));
 
-                sound.success(sender);
+                sounds.success(sender);
 
                 return true;
 
@@ -74,7 +74,7 @@ public class Balance implements CommandExecutor {
                         .replaceAll("%player%", "" + name));
             }
 
-            sound.success(sender);
+            sounds.success(sender);
 
             return true;
 
@@ -82,7 +82,7 @@ public class Balance implements CommandExecutor {
 
         sender.sendMessage(plugin.getMessage("InvalidArgs.Balance"));
 
-        sound.error(sender);
+        sounds.error(sender);
 
         return true;
 

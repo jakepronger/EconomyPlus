@@ -12,10 +12,11 @@ public class PlayerBankChangeEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS_LIST = new HandlerList();
 
-    private final String player;
     private boolean isCancelled;
-    private double newBank;
-    private double oldBank;
+
+    private final String player;
+    private final double newBank;
+    private final double oldBank;
 
     public PlayerBankChangeEvent(String player, double newBank) {
         this.player = player;

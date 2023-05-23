@@ -12,10 +12,11 @@ public class PlayerBalanceChangeEvent extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    private final String player;
     private boolean isCancelled;
-    private double newBalance;
-    private double oldBalance;
+
+    private final String player;
+    private final double newBalance;
+    private final double oldBalance;
 
     public PlayerBalanceChangeEvent(String player, double newBalance) {
         this.player = player;

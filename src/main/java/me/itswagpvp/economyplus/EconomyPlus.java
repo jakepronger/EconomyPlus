@@ -2,7 +2,6 @@ package me.itswagpvp.economyplus;
 
 import me.itswagpvp.economyplus.commands.Bank;
 import me.itswagpvp.economyplus.listeners.PlayerHandler;
-import me.itswagpvp.economyplus.messages.Messages;
 import me.itswagpvp.economyplus.misc.InterestsManager;
 import me.itswagpvp.economyplus.commands.*;
 import me.itswagpvp.economyplus.database.misc.DatabaseType;
@@ -17,6 +16,9 @@ import me.itswagpvp.economyplus.hooks.vault.VEconomy;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -30,24 +32,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import static me.itswagpvp.economyplus.messages.Messages.getMessageConfig;
-import static me.itswagpvp.economyplus.messages.Messages.messages;
+import static me.itswagpvp.economyplus.config.ConfigManager.configManager;
+import static me.itswagpvp.economyplus.utils.Config.config;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
 
 public class EconomyPlus extends JavaPlugin {
 
     public static EconomyPlus plugin;
 
-    public boolean basicperms = getConfig().getBoolean("Require-Basic-Permissions", true);
-    public boolean updater = getConfig().getBoolean("Updater.Plugin-Updater", true);
-
-    public boolean debug; // Debug mode
+    public boolean basicperms;
+    public boolean updater;
+    public boolean debug;
+    public boolean bank;
 
     private DatabaseType dbType = DatabaseType.UNDEFINED; // Database
-
-    private StorageMode storage = StorageMode.UNDEFINED; // Storage Type (UUID,Nickname)
-
-    public boolean bank = false;
 
 
     // String vault; // Vault message
@@ -71,14 +69,8 @@ public class EconomyPlus extends JavaPlugin {
 
     public void loadDefaultConfig() {
 
-        File file = new File(plugin.getDataFolder(), "config.yml");
-        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
-
         // file doesn't exist so create new config & return
-        if (!file.exists()) {
-            saveDefaultConfig();
-            return;
-        }
+        saveDefaultConfig();
 
         // Config version is same as plugin version OR config updater is disabled
         double version = CONFIG_VERSION;
@@ -216,22 +208,22 @@ public class EconomyPlus extends JavaPlugin {
 
         long delay = System.currentTimeMillis();
 
-        loadPlaceholderAPI();
+        configManager.load(); // sets up the config file
 
-        // store whether bank is enabled or not in the variable
-        if (getConfig().getBoolean("Bank.Enabled")) {
-            bankEnabled = true;
-        }
+        // initialize plugin vars
+        basicperms = config.getBoolean("require-basic-permissions", true);
+        updater = config.getBoolean("updater.use", true);
+        debug = config.getBoolean("debug", false);
+        bank = config.getBoolean("bank.use", true);
+
+        loadPlaceholderAPI();
 
         Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
         Bukkit.getConsoleSender().sendMessage("             §dEconomy§5Plus");
         Bukkit.getConsoleSender().sendMessage("             §aEnabled §d" + PLUGIN_VERSION);
         Bukkit.getConsoleSender().sendMessage("§8");
-
         Bukkit.getConsoleSender().sendMessage("§f-> §cLoading core:");
-
         Bukkit.getConsoleSender().sendMessage("   - §fStorage-Mode: §a" + storageMode.toString());
-
         Bukkit.getConsoleSender().sendMessage("   - §fDatabase: §bLoaded (" + dbType.toString().replace("H2", "SQLite") + ")");
 
         enableDatabase();
@@ -250,8 +242,8 @@ public class EconomyPlus extends JavaPlugin {
 
         Bukkit.getConsoleSender().sendMessage("§8");
 
-        boolean PlaceholderAPI = plugin.getConfig().getBoolean("Hooks.PlaceholderAPI", true);
-        boolean HolographicDisplays = plugin.getConfig().getBoolean("Hooks.HolographicDisplays", true);
+        boolean PlaceholderAPI = config.getBoolean("Hooks.PlaceholderAPI", true);
+        boolean HolographicDisplays = config.getBoolean("Hooks.HolographicDisplays", true);
 
         if (PlaceholderAPI || HolographicDisplays) { // If atleast one of the plugins (to hook into) is set to true in config
 
@@ -294,11 +286,10 @@ public class EconomyPlus extends JavaPlugin {
 
         Updater.check();
 
-        boolean bank = plugin.getConfig().getBoolean("Bank.Enabled", true);
-        boolean interest = plugin.getConfig().getBoolean("Bank.Interests.Enabled", true);
-        if (bank && interest) { new InterestsManager().startBankInterests(); } /* If bank and interest is enabled in config start the interest timer */
-
-        // PlayerHandler.loadUsernames();
+        // If Bank and Interest is enabled start the interest timer
+        if (config.getBoolean("bank.use", true) && config.getBoolean("bank.interest.use", true)) {
+            new InterestsManager().startBankInterests();
+        }
 
         Bukkit.getConsoleSender().sendMessage("§8+---------------[§a " + (System.currentTimeMillis() - delay) + "ms §8]-------------+");
 
@@ -311,19 +302,22 @@ public class EconomyPlus extends JavaPlugin {
     @Override
     public void onDisable() {
 
-        Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-        Bukkit.getConsoleSender().sendMessage("             §dEconomy§5Plus");
-        Bukkit.getConsoleSender().sendMessage("              §cDisabling\n");
-        Bukkit.getConsoleSender().sendMessage("§f-> §cStopping threads...");
-        Bukkit.getConsoleSender().sendMessage("§f-> §cClosing database connection");
+        utils.log("§8+------------------------------------+");
+        utils.log("             §dEconomy§5Plus");
+        utils.log("              §cDisabling\n");
+        utils.log("§f-> §cStopping threads...");
+        utils.log("§f-> §cClosing database connection");
 
         try {
             dbType.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            utils.log("§c-> ERROR: " + e.getMessage());
+            if (debug) {
+                e.printStackTrace();
+            }
         }
 
-        Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+        utils.log("§8+------------------------------------+");
 
     }
 
@@ -366,8 +360,10 @@ public class EconomyPlus extends JavaPlugin {
                 new MySQL().createTable();
                 new MySQL().updateTable();
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§fDatabase: §cError (MySQL)");
-                Bukkit.getConsoleSender().sendMessage(e.getMessage());
+                utils.log("§cDatabase: " + e.getMessage() + " (MySQL ERROR)");
+                if (debug) {
+                    e.printStackTrace();
+                }
                 return;
             }
 
@@ -378,8 +374,10 @@ public class EconomyPlus extends JavaPlugin {
             try {
                 new SQLite().load();
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§fDatabase: §cError (SQLite)");
-                e.printStackTrace();
+                utils.log("§cDatabase: " + e.getMessage() + " (H2 ERROR)");
+                if (debug) {
+                    e.printStackTrace();
+                }
                 return;
             }
 
@@ -390,8 +388,10 @@ public class EconomyPlus extends JavaPlugin {
             try {
                 createYMLStorage();
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§fDatabase: §cError (YAML)");
-                Bukkit.getConsoleSender().sendMessage(e.getMessage());
+                Bukkit.getConsoleSender().sendMessage("§cDatabase: " + e.getMessage() + " (YAML ERROR)");
+                if (debug) {
+                    e.printStackTrace();
+                }
                 return;
             }
 
@@ -416,33 +416,41 @@ public class EconomyPlus extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerHandler(), this);
     }
 
-    private void loadCommands() {
+    private void registerCommands() {
 
-        getCommand("baltop").setExecutor(new BalanceTop());
-        getCommand("baltop").setTabCompleter(new TabCompleterLoader());
-        getCommand("economyplus").setExecutor(new Main());
-        getCommand("economyplus").setTabCompleter(new TabCompleterLoader());
-        getCommand("bal").setExecutor(new Balance());
-        getCommand("bal").setTabCompleter(new TabCompleterLoader());
-        getCommand("pay").setExecutor(new Pay());
-        getCommand("pay").setTabCompleter(new TabCompleterLoader());
-        getCommand("eco").setExecutor(new Eco());
-        getCommand("eco").setTabCompleter(new TabCompleterLoader());
-        getCommand("bank").setExecutor(new Bank());
-        getCommand("paytoggle").setExecutor(new PayToggle());
-        getCommand("paytoggle").setTabCompleter(new TabCompleterLoader());
+        registerCommand("baltop", new BalanceTop(), new TabCompleterLoader());
+        registerCommand("economyplus", new Main(), new TabCompleterLoader());
+        registerCommand("bal", new Balance(), new TabCompleterLoader());
+        registerCommand("pay", new Pay(), new TabCompleterLoader());
+        registerCommand("eco", new Eco(), new TabCompleterLoader());
+        registerCommand("paytoggle", new PayToggle(), new TabCompleterLoader());
 
-        if (getConfig().getBoolean("Bank.Enabled")) {
-            getCommand("bank").setTabCompleter(new TabCompleterLoader());
+        if (bank) { // if bank is enabled
+            registerCommand("bank", new Bank(), new TabCompleterLoader());
         }
 
-        Bukkit.getConsoleSender().sendMessage("   - §fCommands: §aLoaded");
+        utils.log("   - §fCommands: §aLoaded");
+
+    }
+
+    private void registerCommand(String label, CommandExecutor executor, TabCompleter... tabCompleter) {
+
+        PluginCommand command = getCommand(label);
+        if (command != null) {
+            command.setExecutor(executor);
+            if (tabCompleter[0] != null) {
+                command.setTabCompleter(tabCompleter[0]);
+            }
+        } else {
+            utils.log("&cError while loading command /" + label + "!");
+        }
+
     }
 
     // Loads the bStats metrics
     private void loadMetrics() {
 
-        if (!getConfig().getBoolean("Metrics")) return;
+        if (!config.getBoolean("Metrics", true)) return;
 
         try {
             new bStats(this, 11565);
@@ -456,7 +464,7 @@ public class EconomyPlus extends JavaPlugin {
 
     private void loadPlaceholderAPI() {
 
-        if (!plugin.getConfig().getBoolean("Hooks.PlaceholderAPI")) return;
+        if (!config.getBoolean("Hooks.PlaceholderAPI", true)) return;
 
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
             placeholder = "§cCan't find the jar!";
@@ -475,10 +483,10 @@ public class EconomyPlus extends JavaPlugin {
 
     private void loadHolograms() {
 
-        if (!getConfig().getBoolean("Hooks.HolographicDisplays")) return;
+        if (!config.getBoolean("Hooks.HolographicDisplays", true)) return;
 
         if (getServer().getPluginManager().getPlugin("HolographicDisplays") == null) {
-            Bukkit.getConsoleSender().sendMessage("   - §fHolographicDisplays: §cCan't find the jar!");
+            utils.log("   - §fHolographicDisplays: §cCan't find the jar!");
             return;
         }
 
@@ -486,7 +494,7 @@ public class EconomyPlus extends JavaPlugin {
 
             if (new StorageManager().getStorageConfig().getString("Hologram.BalTop.World") != null) {
 
-                Bukkit.getConsoleSender().sendMessage("   - §fHolographicDisplays: §aHooked!");
+                utils.log("   - §fHolographicDisplays: §aHooked!");
 
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> new HolographicDisplays().createHologram(), 1);
 
@@ -494,14 +502,15 @@ public class EconomyPlus extends JavaPlugin {
             }
 
         } catch (Exception e) {
-
-            Bukkit.getConsoleSender().sendMessage("   - §fHolographicDisplays: §cError!");
-            Bukkit.getConsoleSender().sendMessage(e.getMessage());
+            utils.log("   - §fHolographicDisplays: §c" + e.getMessage() + " (ERROR)");
+            if (debug) {
+                e.printStackTrace();
+            }
             return;
 
         }
 
-        Bukkit.getConsoleSender().sendMessage("   - §fHolographicDisplays: §aHooked!");
+        utils.log("   - §fHolographicDisplays: §aHooked!");
 
     }
 

@@ -1,4 +1,4 @@
-package me.itswagpvp.economyplus.messages;
+package me.itswagpvp.economyplus.config;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,11 +17,11 @@ import java.util.jar.JarFile;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 
-public class Messages {
+public class LanguageManager {
 
-    public static Messages messages = new Messages();
+    public static LanguageManager languages = new LanguageManager();
 
-    private static final String path = plugin.getDataFolder() + "/messages";
+    private final String path = plugin.getDataFolder() + "/messages";
 
     public void load() {
 
@@ -40,10 +40,13 @@ public class Messages {
     }
 
     public FileConfiguration getMessageConfig(String name) {
+
         File file = new File(path, name + ".yml");
+
         if (file.exists()) {
             return YamlConfiguration.loadConfiguration(new File(path, name + ".yml"));
         }
+
         return null;
     }
 
