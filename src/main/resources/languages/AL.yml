@@ -5,7 +5,7 @@
 # Mesazhe generale
 NoConsole: "&cNuk mund ta besh këtë nga Console!"
 NoPlayer: "&cNuk mund ta besh këtë!"
-noPermss: "&cNuk keni leje të mjaftueshme!"
+noPerms: "&cNuk keni leje të mjaftueshme!"
 Reload: "&aPlugin u ricarikuar ne %time%ms!"
 PlayerNotFound: "&cLojtari nuk u gjet!"
 

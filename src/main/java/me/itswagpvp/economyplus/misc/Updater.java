@@ -1,6 +1,5 @@
 package me.itswagpvp.economyplus.misc;
 
-import me.itswagpvp.economyplus.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
@@ -17,22 +16,22 @@ import java.nio.channels.ReadableByteChannel;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 
-import me.itswagpvp.economyplus.EconomyPlus;
+import static me.itswagpvp.economyplus.EconomyPlus.plugin;
+import static me.itswagpvp.economyplus.utils.Config.config;
+import static me.itswagpvp.economyplus.utils.Sounds.sounds;
 
 public class Updater implements Listener {
 
-    static EconomyPlus plugin = EconomyPlus.plugin;
+    int behind = 0;
+    int ahead = 0;
 
-    static int behind = 0;
-    static int ahead = 0;
+    boolean alreadyDownloaded = false;
+    double currentVersion = config.getVersion();
+    double latestGitVersion = 0;
 
-    static boolean alreadyDownloaded = false;
-    static double currentVersion = Double.parseDouble(plugin.getDescription().getVersion());
-    static double latestGitVersion = 0;
+    public void check() {
 
-    public static void check() {
-
-        if (!plugin.PLUGIN_UPDATER || alreadyDownloaded) return;
+        if (!plugin.updater || alreadyDownloaded) return;
 
         if (currentVersion < getLatestGitVersion()) {
 
@@ -56,9 +55,9 @@ public class Updater implements Listener {
 
     }
 
-    public static double getLatestGitVersion() {
+    public double getLatestGitVersion() {
 
-        if (!(latestGitVersion == 0)) {
+        if (latestGitVersion != 0) {
             return latestGitVersion;
         }
 
@@ -133,11 +132,11 @@ public class Updater implements Listener {
 
     }
 
-    private static boolean getUpdateAvailable() { return !alreadyDownloaded && currentVersion < getLatestGitVersion(); }
+    private boolean getUpdateAvailable() { return !alreadyDownloaded && currentVersion < getLatestGitVersion(); }
 
-    public static void checkForPlayerUpdate(Player p) {
+    public void checkForPlayerUpdate(Player p) {
 
-        if (!plugin.PLUGIN_UPDATER || alreadyDownloaded) return;
+        if (!plugin.updater || alreadyDownloaded) return;
 
         boolean notifications = plugin.getConfig().getBoolean("Updater.Notifications", true);
 
@@ -156,22 +155,22 @@ public class Updater implements Listener {
 
     }
 
-    public static void downloadUpdate(CommandSender p) {
+    public void downloadUpdate(CommandSender p) {
 
-        if (!plugin.PLUGIN_UPDATER) {
+        if (!plugin.updater) {
             p.sendMessage("§cThe updater is disabled.");
-            Utils.playErrorSound(p);
+            sounds.error(p);
             return;
         }
 
         if (!p.hasPermission("economyplus.update")) {
-            p.sendMessage(plugin.getMessage("noPermss"));
+            p.sendMessage(plugin.getMessage("noPerms"));
             return;
         }
 
         if (!getUpdateAvailable() || alreadyDownloaded) {
             p.sendMessage(("§cThere is no update to download!"));
-            Utils.playErrorSound(p);
+            sounds.error(p);
             return;
         }
 

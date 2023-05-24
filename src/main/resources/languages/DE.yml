@@ -7,7 +7,7 @@
 # Allgemeine Nachrichten
 NoConsole: "&cDu kannst diesen Befehl nicht in der Konsole ausführen!"
 NoPlayer: "&cDu kannst diesen Befehl nicht aus dem Spiel ausführen!"
-noPermss: "&cDu hast keine Berechtigung diesen Befehl auszuführen!"
+noPerms: "&cDu hast keine Berechtigung diesen Befehl auszuführen!"
 Reload: "&aPlugin innerhalb %time%ms neu geladen."
 PlayerNotFound: "&cSpieler nicht gefunden."
 

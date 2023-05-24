@@ -7,7 +7,7 @@
 # General messages
 NoConsole: "&cVous ne pouvez pas faire cela depuis la console!"
 NoPlayer: "&cVous ne pouvez pas faire cela depuis le jeu!"
-noPermss: "&cVous n'avez pas assez d'autorisations!"
+noPerms: "&cVous n'avez pas assez d'autorisations!"
 Reload: "&aPlugin recharger en %time%ms!"
 PlayerNotFound: "&cJoueur non trouvé!"
 

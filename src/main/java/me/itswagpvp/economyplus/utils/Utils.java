@@ -27,7 +27,7 @@ public class Utils {
             return false;
         }
 
-        sender.sendMessage(getMessage("noPermss"));
+        sender.sendMessage(getMessage("noPerms"));
         sounds.error(sender);
 
         return true;

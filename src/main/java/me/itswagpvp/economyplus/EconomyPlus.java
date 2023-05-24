@@ -15,18 +15,12 @@ import me.itswagpvp.economyplus.misc.*;
 import me.itswagpvp.economyplus.hooks.vault.VEconomy;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 
 import static me.itswagpvp.economyplus.managers.ConfigManager.configManager;

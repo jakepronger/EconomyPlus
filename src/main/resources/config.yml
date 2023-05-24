@@ -4,7 +4,7 @@
 # Don't modify this as it's to verify your config version
 version: ${project.version}
 
-# Send stacktraces when there are errors?
+# Send stacktrace errors?
 debug: false
 
 # Translators' credits for their valuable contributions
@@ -23,38 +23,38 @@ hooks:
 # Plugin updater settings
 updater:
   enabled: true
-  # Get update notifications (requires permission: economyplus.update)
-  notify-on-update: true
-  # Automatically update the configuration file
-  auto-update-config: true
+  notify-on-update: true # Get update notifications (requires permission: economyplus.update)
+  auto-update-config: true # Automatically update the configuration file
 
 # Sound settings
 sounds:
-  enabled: true
-  success: ENTITY_PLAYER_LEVELUP  # Sound played on successful actions
-  failed: ENTITY_VILLAGER_NO  # Sound played on failed actions
+  success: # Sound played on successful actions
+    use: true
+    sound: ENTITY_PLAYER_LEVELUP
+  failed: # Sound played on failed actions
+    use: true
+    sound: ENTITY_VILLAGER_NO
 
 # Permission settings for basic commands
 require-basic-command-permissions: true
 
 # Currency formatting options
 formatting:
-  use-integers-only: false # Use integers for currency values instead of decimals\
+  use-integers-only: false # Use integers for currency values instead of decimals?
+  # Decimal Settings
   decimals:
-    # Use decimal values for currency?
-    enabled: true
-    # Remove extra zeros for integers? (e.g., 12.00 becomes 12)
-    excessive-zeros: false
-    # Round up decimals? (e.g., 10.005 becomes 10.01)
-    round-up: false
-  letters: # Currency abbreviations for placeholders
+    enabled: true # Use decimal values for currency?
+    excessive-zeros: false # Remove extra zeros for integers? (e.g., 12.00 becomes 12)
+    round-up: false # Round up decimals? (e.g., 10.005 becomes 10.01)
+  # Currency abbreviations for placeholders
+  letters:
     1000: k
     1000000: M
     1000000000: B
     1000000000000: T
     1000000000000000: Q
+  # Formatting pattern for %money% placeholder (excluding %money_formatted%)
   custom-pattern:
-    # Enable custom formatting pattern for %money% placeholder (excluding %money_formatted%)
     enabled: true
     value: '###,###.##'
 
@@ -77,36 +77,32 @@ balance-modification:
 balance-top:
   command:
     format: '&6%number%) &f%player%: &c$%money%'
-    # Header displayed in /baltop command
-    header:
+    header: # Header displayed when executing /balancetop
       - '&8&m-----------------'
       - '&d&lBalance Top (Page %page%)'
       - '&8&m-----------------'
-    # Enable or disable the footer
-    use-footer: true
+    # Footer settings
+    use-footer: false
     footer:
       - ''
   hologram:
-    # Refresh rate of holograms (in seconds)
-    refresh-rate: 60
+    refresh-rate: 60 # Refresh rate of holograms (in seconds)
     format: "&6%number%) &f%player%: &c$%money%"
-    header:
+    header: # Header displayed on the hologram
       - '&8&m-----------------'
       - '&d&lBalance Top'
       - '&8&m-----------------'
-    # Enable or disable the footer
-    use-footer: true
+    # Footer settings
+    use-footer: false
     footer:
       - ''
 
+cache:
+  auto-save: 300 # How frequently to refresh the cache (seconds)
+
 database:
-  cache:
-    # How frequently to refresh the cache (seconds)
-    auto-save: 300
-  # Can be either UUID or USERNAME
-  mode: UUID
-  # Choose database type (H2, MySQL, YAML)
-  type: H2
+  mode: UUID # Can be either UUID or USERNAME
+  type: H2 # Choose database type (H2, MySQL, YAML)
   MySQL:
     # Database host
     host: localhost
