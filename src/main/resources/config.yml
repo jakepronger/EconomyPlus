@@ -1,153 +1,140 @@
-#  ╔════════════════════════════════════════════════════════════════════════════════════════════════╗
-#  ║ ███████╗░█████╗░░█████╗░███╗░░██╗░█████╗░███╗░░░███╗██╗░░░██╗██████╗░██╗░░░░░██╗░░░██╗░██████╗ ║
-#  ║ ██╔════╝██╔══██╗██╔══██╗████╗░██║██╔══██╗████╗░████║╚██╗░██╔╝██╔══██╗██║░░░░░██║░░░██║██╔════╝ ║
-#  ║ █████╗░░██║░░╚═╝██║░░██║██╔██╗██║██║░░██║██╔████╔██║░╚████╔╝░██████╔╝██║░░░░░██║░░░██║╚█████╗░ ║
-#  ║ ██╔══╝░░██║░░██╗██║░░██║██║╚████║██║░░██║██║╚██╔╝██║░░╚██╔╝░░██╔═══╝░██║░░░░░██║░░░██║░╚═══██╗ ║
-#  ║ ███████╗╚█████╔╝╚█████╔╝██║░╚███║╚█████╔╝██║░╚═╝░██║░░░██║░░░██║░░░░░███████╗╚██████╔╝██████╔╝ ║
-#  ║ ╚══════╝░╚════╝░░╚════╝░╚═╝░░╚══╝░╚════╝░╚═╝░░░░░╚═╝░░░╚═╝░░░╚═╝░░░░░╚══════╝░╚═════╝░╚═════╝░ ║
-#  ╚════════════════════════════════════════════════════════════════════════════════════════════════╝
-
-# WARNING NOTE: look into playerhandler remove save username
-
 # EconomyPlus made by _ItsWagPvP
-# Watch the full resource on https://github.com/ItsWagPvP/EconomyPlus
+# https://github.com/ItsWagPvP/EconomyPlus
 
-# Do not change this!
-# This is used to verify your config version
+# Don't modify this as it's to verify your config version
 version: ${project.version}
 
-# Credit to all translators for contributing.
-# EN, IT, RO, AL, DE, ZH, FR, RU, ES
-language: EN
-
-# bStats system (https://bstats.org/plugin/bukkit/EconomyPlus/11565)
-metrics: true
-
-# Will send plugin's internal logs to console
+# Send stacktraces when there are errors?
 debug: false
 
-# Integrates with other plugins to enhance functionality.
+
+# Translators' credits for their valuable contributions
+# Supported languages: EN, IT, RO, AL, DE, ZH, FR, RU, ES
+language: EN
+
+# Enable bStats to collect plugin usage statistics?
+# https://bstats.org/plugin/bukkit/EconomyPlus/11565
+bStats: true
+
+# Plugin integration hooks
 hooks:
-  PlaceholderAPI: true # Placeholders
+  PlaceholderAPI: true
   HolographicDisplays: true
 
-# You want to enable the updater?
+# Plugin updater settings
 updater:
-  use: true # Enable the plugin's auto update feature?
-  notifications: true # Receive notifications when you join (if you have the perm "economyplus.update")
-  config-updater: true # Enables the config to be updated automatically.
-  check-github: 1 # Amount of days before the server will check for release on GitHub. 0 will check github every start up
+  enabled: true
+  # Notify if there is an update available (requires "economyplus.update" permission)
+  notify-on-update: true
+  # Automatically update the configuration file
+  auto-update-config: true
 
-# Plays success/error sounds to player after an action.
+# Sound settings
 sounds:
-  use: true
-  error: ENTITY_VILLAGER_NO
-  success: ENTITY_PLAYER_LEVELUP
+  enabled: true
+  success-sound: ENTITY_PLAYER_LEVELUP # Sound played on successful actions
+  failed-sound: ENTITY_VILLAGER_NO # Sound played on failed actions
 
-# Require permissions for commands that aren't administrative?
-require-basic-permissions: true
+# Permission settings for basic commands
+require-basic-command-permissions: true
 
+# Currency formatting options
 formatting:
-  use-decimals: true
-  have-excessive-zeros: false # 12 = 12.00
-  round-decimals: false # 10.005 = 10.01
+  use-integers-only: false # Use integers for currency values instead of decimals\
+  decimals:
+    # Use decimal values for currency?
+    enabled: true
+    # Remove extra zeros for integers? (e.g., 12.00 becomes 12)
+    excessive-zeros: false
+    # Round up decimals? (e.g., 10.005 becomes 10.01)
+    round-up: false
+  letters: # Currency abbreviations for placeholders
+    1000: k
+    1000000: M
+    1000000000: B
+    1000000000000: T
+    1000000000000000: Q
+  custom-pattern:
+    # Enable custom formatting pattern for %money% placeholder (excluding %money_formatted%)
+    enabled: true
+    value: '###,###.##'
 
-formatted-placeholder: # Used to format the %economyplus_money_formatted% & %money_formatted% placeholder
-  1000: k
-  1000000: M
-  1000000000: B
-  1000000000000: T
-  1000000000000000: Q
+# Starting amount when a player first joins
+starting-amount:
+  balance: 0
+  bank: 0
 
-# This will only work with %money% and not with %money_formatted%
-pattern:
-  use: true
-  value: '###,###.##'
+# Economy reset options
+reset-economy:
+  flags: true # Enable the use of @a or * when resetting balances
+  console-only: true # Restrict the reset command to console only
 
-# Set a user balance on join
-starting-balance: 0
+# Player balance modification settings
+balance-modification:
+  offline-players: true # Allow modification of balances for offline players
+  never-played: false # Allow modification of balances for players who haven't played before
 
-# Set a user bank on join
-starting-bank-balance: 0
-
-# Reset All
-reset-all:
-  flags: true # Allows you to use @a or * when resetting balances.
-  console-only: true # Command only works in console
-
-purge-invalid: false # Remove invalid users automatically?
-
-# Able to set people who have never played before balances
-set-invalid: false # Save-Usernames must be enabled if your using this! It will prevent "Invalid User" and purging of invalid accounts!
-save-usernames: true # Save usernames? (Attempts to prevent "Invalid User" issues)
-
-# Baltop configuration
+# Balance top settings
 balance-top:
-  chat:
-    # Like 1) _ItsWagPvP: $100
-    player-format: '&6%number%) &f%player%: &c$%money%'
-    # The header of /baltop
+  command:
+    format: '&6%number%) &f%player%: &c$%money%'
+    # Header displayed in /baltop command
     header:
       - '&8&m-----------------'
-      - '&d&lBalTop (Page %page%)'
+      - '&d&lBalance Top (Page %page%)'
       - '&8&m-----------------'
-  # This is for the hologram! (/ep hologram)
+    # Enable or disable the footer
+    use-footer: true
+    footer:
+      - ''
   hologram:
-    # Refresh rate of holograms!
-    refresh-rate: 60 # <- In seconds
-    player-format: '&6%number%) &f%player%: &c$%money%'
+    # Refresh rate of holograms (in seconds)
+    refresh-rate: 60
+    format: "&6%number%) &f%player%: &c$%money%"
     header:
       - '&8&m-----------------'
-      - '&d&lBalTop'
+      - '&d&lBalance Top'
       - '&8&m-----------------'
+    # Enable or disable the footer
+    use-footer: true
+    footer:
+      - ''
 
-# Select how to storage the data
 database:
-  # Cache settings for better db performances
-  Cache:
-    # How much frequently the plugin should refresh the cache?
-    # Does not affect player moneys or placeholders
-    # It's only for security purposes
-    # Default: 300 = 5 Minutes
-    auto-save: 300 # <- In seconds
-    # How many frequently the cache needs to be
-    # refreshed with the MySQL db?
-    MySQL: 10 # <- In seconds
-  # You can choose one from UUID or NICKNAME
+  cache:
+    # How frequently to refresh the cache (seconds)
+    auto-save: 300
+  # Can be either UUID or USERNAME
   mode: UUID
-  # H2 (database.db)
-  # MySQL
-  # YAML (data.yml)
+  # Choose database type (H2, MySQL, YAML)
   type: H2
-  # If you have set Type to H2 or YAML you have to ignore this options
-  # Localhost connection
-  host: localhost
-  # Default is 3306
-  port: 3306
-  # The user for use MySQL connection
-  username: root
-  # Password of the user
-  password: qwerty
-  # Database name
-  database: EconomyPlus
-  # If you have not set up the table the plugin will create it for you!
-  table: economy
-  # If the plugin loses connection it will auto-reconnect to the database
-  auto-reconnect: true
-  # Using an SSL certificate?
-  useSSL: false
+  MySQL:
+    # Database host
+    host: localhost
+    # Database port
+    port: 3306
+    # MySQL username
+    username: root
+    # MySQL password
+    password: qwerty
+    # Database name
+    database: EconomyPlus
+    # Database table name
+    table: economy
+    # Auto-reconnect to the database if connection is lost
+    auto-reconnect: true
+    # Use SSL certificate for database connection
+    useSSL: false
 
-
-# This is the section where you can customize the /bank command
+# Bank settings
 bank:
-  # You want to use the bank feature?
-  use: true
-  # Interests feature
+  enabled: true
   interest:
-    use: true
-    # How frequently the bank will add the interests?
-    time: 300 # <- In seconds!
-    # Interest rate (%)
+    # Enable interest feature
+    enabled: true
+    # Frequency of interest addition (in seconds)
+    frequency: 300
+    # Interest rate as a percentage
     percentage: 10
-    # The player needs to be online to receive the interest?
-    require-online: true
+    # Require player to be online to receive interest?
+    require-player-online: true
