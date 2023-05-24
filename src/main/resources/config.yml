@@ -7,7 +7,6 @@ version: ${project.version}
 # Send stacktraces when there are errors?
 debug: false
 
-
 # Translators' credits for their valuable contributions
 # Supported languages: EN, IT, RO, AL, DE, ZH, FR, RU, ES
 language: EN
@@ -24,7 +23,7 @@ hooks:
 # Plugin updater settings
 updater:
   enabled: true
-  # Notify if there is an update available (requires "economyplus.update" permission)
+  # Get update notifications (requires permission: economyplus.update)
   notify-on-update: true
   # Automatically update the configuration file
   auto-update-config: true
@@ -32,8 +31,8 @@ updater:
 # Sound settings
 sounds:
   enabled: true
-  success-sound: ENTITY_PLAYER_LEVELUP # Sound played on successful actions
-  failed-sound: ENTITY_VILLAGER_NO # Sound played on failed actions
+  success: ENTITY_PLAYER_LEVELUP  # Sound played on successful actions
+  failed: ENTITY_VILLAGER_NO  # Sound played on failed actions
 
 # Permission settings for basic commands
 require-basic-command-permissions: true
@@ -59,7 +58,7 @@ formatting:
     enabled: true
     value: '###,###.##'
 
-# Starting amount when a player first joins
+# Initial starting balance for new players
 starting-amount:
   balance: 0
   bank: 0
@@ -128,7 +127,7 @@ database:
 
 # Bank settings
 bank:
-  enabled: true
+  enabled: true  # Use the bank feature?
   interest:
     # Enable interest feature
     enabled: true
