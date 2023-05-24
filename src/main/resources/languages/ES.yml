@@ -7,7 +7,7 @@
 # General messages
 NoConsole: "&cNo puedes hacer esto desde la consola.!"
 NoPlayer: "&cNo puedes hacer esto desde el juego.!"
-NoPerms: "&cNo tienes suficientes permisos!"
+noPermss: "&cNo tienes suficientes permisos!"
 Reload: "&aComplemento recargado en %time%ms!"
 PlayerNotFound: "&cJugador no encontrado!"
 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum DatabaseType {
+
     H2 {
         @Override
         public boolean contains(String playerName) {

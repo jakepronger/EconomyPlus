@@ -26,7 +26,7 @@ public class Pay implements CommandExecutor {
 
         Player p = (Player) sender;
 
-        if (utils.noPerm(p, "economyplus.pay", true)) {
+        if (utils.noPerms(p, "economyplus.pay", true)) {
             return true;
         }
 

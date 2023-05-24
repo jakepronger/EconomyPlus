@@ -5,7 +5,7 @@
 # Mesaje generale
 NoConsole: "&cNu puteți face acest lucru de pe consolă!"
 NoPlayer: "&cYou can't do this from game!"
-NoPerms: "&cNu poți face asta din joc!"
+noPermss: "&cNu poți face asta din joc!"
 Reload: "&aPluginul s-a reîncărcat %time%ms!"
 PlayerNotFound: "&cJucătorul nu a fost găsit!"
 

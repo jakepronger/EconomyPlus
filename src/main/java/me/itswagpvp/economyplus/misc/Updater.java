@@ -165,7 +165,7 @@ public class Updater implements Listener {
         }
 
         if (!p.hasPermission("economyplus.update")) {
-            p.sendMessage(plugin.getMessage("NoPerms"));
+            p.sendMessage(plugin.getMessage("noPermss"));
             return;
         }
 

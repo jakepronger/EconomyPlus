@@ -17,7 +17,7 @@ public class Utils {
 
     public static Utils utils = new Utils();
 
-    public boolean noPerm(CommandSender sender, String permission, boolean isBasicPerm) {
+    public boolean noPerms(CommandSender sender, String permission, boolean isBasicPerm) {
 
         if (isBasicPerm && !plugin.basicperms) {
             return false;
@@ -27,7 +27,7 @@ public class Utils {
             return false;
         }
 
-        sender.sendMessage(plugin.getMessage("NoPerms"));
+        sender.sendMessage(getMessage("noPermss"));
         sounds.error(sender);
 
         return true;
@@ -127,6 +127,38 @@ public class Utils {
         }
 
         return format(d);
+    }
+
+    // Get the string from /messages/file.yml and format it with color codes (hex for 1.16+)
+    public String getMessage(String path) {
+
+        if (getMessageConfig(lang).get(path) == null) {
+            return path;
+        }
+
+        String rawMessage = getMessageConfig(lang).getString(path);
+
+        assert rawMessage != null;
+
+        //TODO Keep this only for implementing #isMessageEnabled
+        if (rawMessage.equalsIgnoreCase("none")) {
+            return "";
+        }
+
+        if (utils.supportRGBColors()) {
+            String hexMessage = utils.hexColor(rawMessage);
+            return ChatColor.translateAlternateColorCodes('&', hexMessage);
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', rawMessage);
+    }
+
+    public boolean isMessageEnabled(String path) {
+        if (!getMessageConfig(lang).isString(path)) {
+            return false;
+        }
+
+        return !getMessageConfig(lang).getString(path).equalsIgnoreCase("none");
     }
 
 }

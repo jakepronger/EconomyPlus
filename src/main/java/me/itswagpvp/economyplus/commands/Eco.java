@@ -24,10 +24,10 @@ public class Eco implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if (utils.noPerm(sender, "economyplus.eco.reset", false)
-                || utils.noPerm(sender, "economyplus.eco.give", false)
-                || utils.noPerm(sender, "economyplus.eco.take", false)
-                || utils.noPerm(sender, "economyplus.eco.set", false))
+        if (utils.noPerms(sender, "economyplus.eco.reset", false)
+                || utils.noPerms(sender, "economyplus.eco.give", false)
+                || utils.noPerms(sender, "economyplus.eco.take", false)
+                || utils.noPerms(sender, "economyplus.eco.set", false))
             return true;
 
         if (args.length == 2) {
@@ -95,7 +95,7 @@ public class Eco implements CommandExecutor {
                         return true;
                     }
 
-                    if (utils.noPerm(sender, "economyplus.eco.reset", false)) {
+                    if (utils.noPerms(sender, "economyplus.eco.reset", false)) {
                         return true;
                     } else {
 
@@ -156,7 +156,7 @@ public class Eco implements CommandExecutor {
 
             if (args[1].equalsIgnoreCase("set")) {
 
-                if (utils.noPerm(sender, "economyplus.eco.set", false)) {
+                if (utils.noPerms(sender, "economyplus.eco.set", false)) {
                     return true;
                 }
 
@@ -182,7 +182,7 @@ public class Eco implements CommandExecutor {
 
             } else if (args[1].equalsIgnoreCase("take")) {
 
-                if (utils.noPerm(sender, "economyplus.eco.take", false)) {
+                if (utils.noPerms(sender, "economyplus.eco.take", false)) {
                     return true;
                 }
 
@@ -214,7 +214,7 @@ public class Eco implements CommandExecutor {
 
             } else if (args[1].equalsIgnoreCase("give")) {
 
-                if (utils.noPerm(sender, "economyplus.eco.give", false)) {
+                if (utils.noPerms(sender, "economyplus.eco.give", false)) {
                     return true;
                 }
 

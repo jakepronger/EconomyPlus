@@ -34,7 +34,7 @@ public class Bank implements CommandExecutor {
 
         if (args.length == 0) {
 
-            if (utils.noPerm(p, "economyplus.bank.view", true)) {
+            if (utils.noPerms(p, "economyplus.bank.view", true)) {
                 return true;
             }
 
@@ -57,7 +57,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("withdraw")) {
 
-                if (utils.noPerm(p, "economyplus.bank.withdraw", true)) {
+                if (utils.noPerms(p, "economyplus.bank.withdraw", true)) {
                     return true;
                 }
 
@@ -88,7 +88,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("deposit")) {
 
-                if (utils.noPerm(p, "economyplus.bank.deposit", true)) {
+                if (utils.noPerms(p, "economyplus.bank.deposit", true)) {
                     return true;
                 }
 
@@ -127,7 +127,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("admin")) {
 
-                if (utils.noPerm(p, "economyplus.bank.admin", false)) {
+                if (utils.noPerms(p, "economyplus.bank.admin", false)) {
                     return true;
                 }
 
@@ -166,7 +166,7 @@ public class Bank implements CommandExecutor {
 
             if (args[0].equalsIgnoreCase("admin")) {
 
-                if (utils.noPerm(p, "economyplus.bank.admin", false)) {
+                if (utils.noPerms(p, "economyplus.bank.admin", false)) {
                     return true;
                 }
 
