@@ -20,58 +20,58 @@ hooks:
   PlaceholderAPI: true
   HolographicDisplays: true
 
-# Plugin updater settings
+# Plugin updater
 updater:
   enabled: true
-  notify-on-update: true # Get update notifications (requires permission: economyplus.update)
+  notify-on-update: true # Get notifications (requires permission: economyplus.update)
   auto-update-config: true # Automatically update the configuration file
 
-# Sound settings
+# Sound options
 sounds:
-  success: # Sound played on successful actions
+  success:
     use: true
     sound: ENTITY_PLAYER_LEVELUP
-  failed: # Sound played on failed actions
+  failed:
     use: true
     sound: ENTITY_VILLAGER_NO
 
-# Permission settings for basic commands
+# Permission for basic commands
 require-basic-command-permissions: true
 
-# Currency formatting options
+# Formatting options
 formatting:
   use-integers-only: false # Use integers for currency values instead of decimals?
-  # Decimal Settings
+  # Formatting decimals
   decimals:
     enabled: true # Use decimal values for currency?
-    excessive-zeros: false # Remove extra zeros for integers? (e.g., 12.00 becomes 12)
-    round-up: false # Round up decimals? (e.g., 10.005 becomes 10.01)
-  # Currency abbreviations for placeholders
+    excessive-zeros: false # Have zeros for integers? (e.g., 12 becomes 12.00).
+    round-up: false # Round up decimals? (e.g., 10.005 would be 10.01)
+  # Currency abbreviations for the formatted placeholders
   letters:
     1000: k
     1000000: M
     1000000000: B
     1000000000000: T
     1000000000000000: Q
-  # Formatting pattern for %money% placeholder (excluding %money_formatted%)
+  # Custom pattern for money placeholders (excludes formatted)
   custom-pattern:
     enabled: true
     value: '###,###.##'
 
-# Initial starting balance for new players
+# Starting balance for new players
 starting-amount:
   balance: 0
   bank: 0
 
 # Economy reset options
 reset-economy:
-  flags: true # Enable the use of @a or * when resetting balances
-  console-only: true # Restrict the reset command to console only
+  flags: true # Enable the use of @a or * when resetting balances?
+  console-only: true # Restrict the reset command to console only?
 
-# Player balance modification settings
+# Balance modification options
 balance-modification:
-  offline-players: true # Allow modification of balances for offline players
-  never-played: false # Allow modification of balances for players who haven't played before
+  offline-players: true # Enable modifying balances of offline players?
+  never-played: false # Enable modifying balances of never played players?
 
 # Balance top settings
 balance-top:
@@ -97,12 +97,17 @@ balance-top:
     footer:
       - ''
 
+# Cache options
 cache:
-  auto-save: 300 # How frequently to refresh the cache (seconds)
+  auto-save: 300 # How frequently the cache refreshes (seconds)
 
+# Database options
 database:
-  mode: UUID # Can be either UUID or USERNAME
-  type: H2 # Choose database type (H2, MySQL, YAML)
+  # Storage options
+  storage:
+    mode: UUID # Can be either UUID or USERNAME
+    type: H2 # Choose database type (H2, MySQL, YAML)
+  # MySQL settings
   MySQL:
     # Database host
     host: localhost
@@ -113,17 +118,17 @@ database:
     # MySQL password
     password: qwerty
     # Database name
-    database: EconomyPlus
+    database-name: EconomyPlus
     # Database table name
-    table: economy
-    # Auto-reconnect to the database if connection is lost
+    table-name: economy
+    # Attempt to reconnect to the database if connection is lost?
     auto-reconnect: true
-    # Use SSL certificate for database connection
+    # Use SSL certificate for database connection?
     useSSL: false
 
-# Bank settings
+# Bank options
 bank:
-  enabled: true  # Use the bank feature?
+  enabled: true  # Enable the bank feature?
   interest:
     # Enable interest feature
     enabled: true
