@@ -19,7 +19,29 @@ public class Config {
     }
 
     public double getVersion() {
-        return Double.parseDouble(get("version", 0).toString());
+
+        StringBuilder version = new StringBuilder();
+
+        String[] split = get("version", 0).toString().split("\\.");
+
+        if (split.length > 1) {
+            version = new StringBuilder(split[0] + ".");
+        }
+
+        boolean id = false;
+        for (String loop : split) {
+
+            if (!id) {
+                id = true;
+                continue;
+            }
+
+            version.append(loop);
+
+        }
+
+        return Double.parseDouble(version.toString());
+
     }
 
     public String getString(String path, String def) {
