@@ -8,6 +8,8 @@ softdepend:
   - Vault
   - PlaceholderAPI
   - HolographicDisplays
+loadbefore:
+  - Essentials
 commands:
   economyplus:
     description: Plugin command.

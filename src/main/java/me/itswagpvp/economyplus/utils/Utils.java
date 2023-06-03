@@ -38,8 +38,10 @@ public class Utils {
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "[" + plugin.getName() + "] " + message));
     }
 
-    public void logError(String message, Exception exception) { // send plugin message to console
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&c[" + plugin.getName() + "] " + message));
+    public void error(String message, Exception exception) { // send plugin error to console
+        if (!message.equalsIgnoreCase("")) {
+            utils.log(message);
+        }
         if (plugin.debug) {
             exception.printStackTrace();
         }

@@ -1,6 +1,8 @@
 package me.itswagpvp.economyplus;
 
 import me.itswagpvp.economyplus.commands.Bank;
+import me.itswagpvp.economyplus.database.mysql.Initializer;
+import me.itswagpvp.economyplus.enums.DatabaseType;
 import me.itswagpvp.economyplus.listeners.PlayerHandler;
 import me.itswagpvp.economyplus.managers.BalTopManager;
 import me.itswagpvp.economyplus.misc.InterestsManager;
@@ -22,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
 
+import static me.itswagpvp.economyplus.database.mysql.MySQL.mySQL;
 import static me.itswagpvp.economyplus.managers.ConfigManager.configManager;
 import static me.itswagpvp.economyplus.utils.Config.config;
 import static me.itswagpvp.economyplus.utils.Utils.utils;
@@ -38,9 +41,9 @@ public class EconomyPlus extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        plugin = this;
-
         long delay = System.currentTimeMillis();
+
+        plugin = this;
 
         configManager.load(); // sets up the config file
 
@@ -49,8 +52,6 @@ public class EconomyPlus extends JavaPlugin {
         updater = config.getBoolean("updater.use", true);
         debug = config.getBoolean("debug", false);
         bank = config.getBoolean("bank.use", true);
-
-        //
 
         PLUGIN_VERSION = Double.parseDouble(getDescription().getVersion());
         CONFIG_VERSION = getConfig().getDouble("Version", PLUGIN_VERSION);
@@ -214,14 +215,15 @@ public class EconomyPlus extends JavaPlugin {
         if (type.equalsIgnoreCase("MySQL")) {
 
             try {
-                new MySQL().connect();
-                new MySQL().createTable();
-                new MySQL().updateTable();
+
+                Initializer initializer = mySQL.initializer;
+
+                initializer.connect();
+                initializer.createTable();
+                initializer.updateTable();
+
             } catch (Exception e) {
-                utils.log("§cDatabase: " + e.getMessage() + " (MySQL ERROR)");
-                if (debug) {
-                    e.printStackTrace();
-                }
+                utils.error("&cDatabase: " + e.getMessage() + " (MySQL ERROR)", e);
                 return;
             }
 
@@ -232,10 +234,7 @@ public class EconomyPlus extends JavaPlugin {
             try {
                 new SQLite().load();
             } catch (Exception e) {
-                utils.log("§cDatabase: " + e.getMessage() + " (H2 ERROR)");
-                if (debug) {
-                    e.printStackTrace();
-                }
+                utils.error("&cDatabase: " + e.getMessage() + " (H2 ERROR)", e);
                 return;
             }
 
@@ -246,10 +245,7 @@ public class EconomyPlus extends JavaPlugin {
             try {
                 createYMLStorage();
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§cDatabase: " + e.getMessage() + " (YAML ERROR)");
-                if (debug) {
-                    e.printStackTrace();
-                }
+                utils.error("&cDatabase: " + e.getMessage() + " (YAML ERROR)", e);
                 return;
             }
 

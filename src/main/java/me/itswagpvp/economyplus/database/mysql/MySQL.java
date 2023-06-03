@@ -13,6 +13,7 @@ import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 public class MySQL {
 
     public static MySQL mySQL = new MySQL();
+    public Initializer initializer = new Initializer();
 
     public Connection con = Initializer.con;
     public String table = Initializer.table;
