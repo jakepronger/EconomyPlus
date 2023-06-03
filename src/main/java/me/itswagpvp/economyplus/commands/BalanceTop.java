@@ -5,7 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import me.itswagpvp.economyplus.misc.BalTopManager;
+import me.itswagpvp.economyplus.managers.BalTopManager;
 
 import java.util.List;
 

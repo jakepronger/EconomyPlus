@@ -12,7 +12,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.database.misc.Selector;
+import me.itswagpvp.economyplus.misc.Selector;
 
 public class VEconomy implements Economy {
 

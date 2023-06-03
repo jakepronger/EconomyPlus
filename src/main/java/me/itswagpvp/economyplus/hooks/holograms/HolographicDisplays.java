@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import me.itswagpvp.economyplus.misc.BalTopManager;
+import me.itswagpvp.economyplus.managers.BalTopManager;
 import me.itswagpvp.economyplus.misc.StorageManager;
 import me.itswagpvp.economyplus.utils.Utils;;
 

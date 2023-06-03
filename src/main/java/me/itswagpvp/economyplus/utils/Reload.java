@@ -1,7 +1,6 @@
 package me.itswagpvp.economyplus.utils;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.database.misc.DatabaseType;
 import me.itswagpvp.economyplus.misc.StorageManager;
 
 import org.bukkit.command.CommandSender;

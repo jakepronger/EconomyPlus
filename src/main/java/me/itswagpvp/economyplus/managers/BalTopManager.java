@@ -1,12 +1,11 @@
-package me.itswagpvp.economyplus.misc;
+package me.itswagpvp.economyplus.managers;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.database.misc.DatabaseType;
-import me.itswagpvp.economyplus.database.misc.StorageMode;
 import me.itswagpvp.economyplus.database.mysql.MySQL;
 import me.itswagpvp.economyplus.database.sqlite.SQLite;
 import me.itswagpvp.economyplus.listeners.PlayerHandler;
 
+import me.itswagpvp.economyplus.misc.StorageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -127,7 +126,7 @@ public class BalTopManager {
             // get values
             HashMap<String, Integer> map = new HashMap<>();
             for (String value : config.getConfigurationSection("data").getKeys(false)) {
-                map.put(
+                //map.put(
             }
 
             /*

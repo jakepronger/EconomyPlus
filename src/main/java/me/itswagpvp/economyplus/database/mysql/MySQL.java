@@ -12,88 +12,15 @@ import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 
 public class MySQL {
 
-    static Connection connection;
-    final String user = plugin.getConfig().getString("Database.User");
-    final String password = plugin.getConfig().getString("Database.Password");
-    final String host = plugin.getConfig().getString("Database.Host");
-    final String port = plugin.getConfig().getString("Database.Port");
-    final String database = plugin.getConfig().getString("Database.Database");
-    final String table = plugin.getConfig().getString("Database.Table");
-    final boolean autoReconnect = plugin.getConfig().getBoolean("Database.AutoReconnect");
-    final boolean useSSL = plugin.getConfig().getBoolean("Database.useSSL", false);
-    final String url = "jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=" + autoReconnect + "&useSSL=" + useSSL + "&characterEncoding=utf8";
+    public static MySQL mySQL = new MySQL();
 
-    // Connect to the database
-    public void connect() {
-        try {
+    public Connection con = Initializer.con;
+    public String table = Initializer.table;
 
-            connection = DriverManager.getConnection(url, user, password);
+    public Double getTokens(String player) { // Retrieve the balance of the player
 
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-
-        }
-    }
-
-    // Close the database connection if not null
-    public void closeConnection() {
-
-        try {
-            if (connection != null && !connection.isClosed()) connection.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void createTable() {
-
-        String sql = "CREATE TABLE " + table + " ("
-                + "player VARCHAR(45) NOT NULL,"
-                + "moneys DOUBLE NOT NULL,"
-                + "bank DOUBLE NOT NULL,"
-                + "PRIMARY KEY (player))";
-        try {
-
-            PreparedStatement stmt = connection.prepareStatement(sql);
-
-            stmt.executeUpdate();
-
-        } catch (SQLException e) {
-
-            if (e.toString().contains("Table '" + table + "' already exists")) {
-                return;
-            }
-
-            e.printStackTrace();
-
-        }
-
-    }
-
-    public void updateTable() {
-
-        String sql = "ALTER TABLE " + table + " ADD COLUMN bank DOUBLE";
-
-        try {
-
-            PreparedStatement stmt = connection.prepareStatement(sql);
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            if (e.toString().contains("Duplicate column name 'bank'")) {
-                return;
-            }
-            e.printStackTrace();
-        }
-
-    }
-
-    // Retrieve the balance of the player
-    public Double getTokens(String player) {
         try (
-                PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE player = '" + player + "';");
+                PreparedStatement ps = con.prepareStatement("SELECT * FROM " + table + " WHERE player = '" + player + "';");
                 ResultSet rs = ps.executeQuery()
         ) {
             while (rs.next()) {
@@ -104,7 +31,9 @@ public class MySQL {
         } catch (SQLException ex) {
             plugin.getLogger().log(Level.SEVERE, "Couldn't execute MySQL statement: ", ex);
         }
+
         return 0.00;
+
     }
 
     // Save the balance to the player's database
@@ -112,7 +41,7 @@ public class MySQL {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
             try (
-                    PreparedStatement ps = connection.prepareStatement("REPLACE INTO " + table + " (player,moneys,bank) VALUES(?,?,?)")
+                    PreparedStatement ps = con.prepareStatement("REPLACE INTO " + table + " (player,moneys,bank) VALUES(?,?,?)")
             ) {
 
                 ps.setString(1, player);
@@ -132,7 +61,7 @@ public class MySQL {
     public double getBank(String player) {
 
         try (
-                PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE player = '" + player + "';");
+                PreparedStatement ps = con.prepareStatement("SELECT * FROM " + table + " WHERE player = '" + player + "';");
                 ResultSet rs = ps.executeQuery()
         ) {
             while (rs.next()) {
@@ -152,7 +81,7 @@ public class MySQL {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
 
             try (
-                    PreparedStatement ps = connection.prepareStatement("REPLACE INTO " + table + " (player,moneys,bank) VALUES(?,?,?)")
+                    PreparedStatement ps = con.prepareStatement("REPLACE INTO " + table + " (player,moneys,bank) VALUES(?,?,?)")
             ) {
 
                 ps.setString(1, player);
@@ -174,7 +103,7 @@ public class MySQL {
         List<String> list = new ArrayList<>();
 
         try (
-                PreparedStatement ps = connection.prepareStatement("SELECT player FROM " + table);
+                PreparedStatement ps = con.prepareStatement("SELECT player FROM " + table);
                 ResultSet rs = ps.executeQuery()
         ) {
 
@@ -189,12 +118,12 @@ public class MySQL {
         return list;
     }
 
-    public static LinkedHashMap<String, Double> getOrderedList() {
+    public LinkedHashMap<String, Double> getOrderedList() {
 
         LinkedHashMap<String, Double> map = new LinkedHashMap<>();
 
         try (
-                PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + new MySQL().table + " ORDER BY moneys DESC");
+                PreparedStatement ps = con.prepareStatement("SELECT * FROM " + new MySQL().table + " ORDER BY moneys DESC");
                 ResultSet rs = ps.executeQuery()
         ) {
             while (rs.next()) {
@@ -220,7 +149,7 @@ public class MySQL {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             String sql = "DELETE FROM " + table + " where player = '" + user + "'";
             try {
-                PreparedStatement ps = connection.prepareStatement(sql);
+                PreparedStatement ps = con.prepareStatement(sql);
                 ps.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -243,7 +172,7 @@ public class MySQL {
             if (convertTo.equalsIgnoreCase("UUID")) {
 
                 try {
-                    PreparedStatement ps = connection.prepareStatement(
+                    PreparedStatement ps = con.prepareStatement(
                             "UPDATE " + table + " " +
                                     "SET player = \"" + uuid + "\" " +
                                     "WHERE player = \"" + name + "\"");
@@ -255,7 +184,7 @@ public class MySQL {
             } else if (convertTo.equalsIgnoreCase("NICKNAME")) {
 
                 try {
-                    PreparedStatement ps = connection.prepareStatement(
+                    PreparedStatement ps = con.prepareStatement(
                             "UPDATE " + table + " " +
                                     "SET player = \"" + name + "\" " +
                                     "WHERE player = \"" + uuid + "\"");

@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.database.misc.Selector;
+import me.itswagpvp.economyplus.misc.Selector;
 import me.itswagpvp.economyplus.hooks.events.BalanceChangeEvent;
 
 public class Economy extends VEconomy {

@@ -2,10 +2,9 @@ package me.itswagpvp.economyplus;
 
 import me.itswagpvp.economyplus.commands.Bank;
 import me.itswagpvp.economyplus.listeners.PlayerHandler;
+import me.itswagpvp.economyplus.managers.BalTopManager;
 import me.itswagpvp.economyplus.misc.InterestsManager;
 import me.itswagpvp.economyplus.commands.*;
-import me.itswagpvp.economyplus.database.misc.DatabaseType;
-import me.itswagpvp.economyplus.database.misc.StorageMode;
 import me.itswagpvp.economyplus.database.mysql.MySQL;
 import me.itswagpvp.economyplus.database.sqlite.SQLite;
 import me.itswagpvp.economyplus.hooks.PlaceholderAPI;

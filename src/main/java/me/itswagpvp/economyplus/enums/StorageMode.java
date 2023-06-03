@@ -1,4 +1,4 @@
-package me.itswagpvp.economyplus.database.misc;
+package me.itswagpvp.economyplus.enums;
 
 public enum StorageMode {
     UUID,

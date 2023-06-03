@@ -1,8 +1,8 @@
-package me.itswagpvp.economyplus.database.misc;
+package me.itswagpvp.economyplus.enums;
 
 import me.itswagpvp.economyplus.database.mysql.MySQL;
 import me.itswagpvp.economyplus.database.sqlite.SQLite;
-import me.itswagpvp.economyplus.database.yaml.YMLManager;
+import me.itswagpvp.economyplus.database.yaml.Yaml;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -105,42 +105,42 @@ public enum DatabaseType {
     YAML {
         @Override
         public boolean contains(String playerName) {
-            return new YMLManager().contains(playerName);
+            return new Yaml().contains(playerName);
         }
 
         @Override
         public double getToken(String playerName) {
-            return new YMLManager().getTokens(playerName);
+            return new Yaml().getTokens(playerName);
         }
 
         @Override
         public void setTokens(String playerName, double tokens) {
-            new YMLManager().setTokens(playerName, tokens);
+            new Yaml().setTokens(playerName, tokens);
         }
 
         @Override
         public void setBank(String playerName, double tokens) {
-            new YMLManager().setBank(playerName, tokens);
+            new Yaml().setBank(playerName, tokens);
         }
 
         @Override
         public double getBank(String playerName) {
-            return new YMLManager().getBank(playerName);
+            return new Yaml().getBank(playerName);
         }
 
         @Override
         public List<String> getList() {
-            return new YMLManager().getList();
+            return new Yaml().getList();
         }
 
         @Override
         public boolean createPlayer(String player) {
-            return new YMLManager().createPlayer(player);
+            return new Yaml().createPlayer(player);
         }
 
         @Override
         public void removePlayer(String player) {
-            new YMLManager().removePlayer(player);
+            new Yaml().removePlayer(player);
         }
 
         @Override
@@ -207,4 +207,5 @@ public enum DatabaseType {
     public abstract void removePlayer(String player);
 
     public abstract void close() throws SQLException;
+
 }

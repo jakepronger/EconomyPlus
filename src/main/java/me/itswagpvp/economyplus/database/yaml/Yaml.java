@@ -7,7 +7,10 @@ import java.util.List;
 
 import static me.itswagpvp.economyplus.EconomyPlus.plugin;
 
-public class YMLManager {
+public class Yaml {
+
+    // save to config in memory and then save on timer or when server stops?
+    // ! Not everytime we execute an action because wtf? !
 
     public boolean contains(String playerName) {
         return plugin.getYMLData().contains("Data." + playerName);

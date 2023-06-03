@@ -8,7 +8,7 @@ import org.bukkit.command.TabCompleter;
 
 import java.util.*;
 
-import static me.itswagpvp.economyplus.misc.BalTopManager.getPages;
+import static me.itswagpvp.economyplus.managers.BalTopManager.getPages;
 
 public class TabCompleterLoader implements TabCompleter {
 

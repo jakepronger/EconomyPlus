@@ -1,7 +1,6 @@
 package me.itswagpvp.economyplus.commands;
 
 import me.itswagpvp.economyplus.EconomyPlus;
-import me.itswagpvp.economyplus.database.misc.StorageMode;
 import me.itswagpvp.economyplus.listeners.PlayerHandler;
 import me.itswagpvp.economyplus.hooks.vault.Economy;
 
